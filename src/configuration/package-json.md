@@ -4,16 +4,16 @@ eleventyNavigation:
   key: configuration-package-json
   title: ❓ package.json
   order: 1
-summary: The targets object in package.json
+summary: Целевой объект в package.json
 ---
 
-### Fields
+### Поля
 
-These are the fields that Parcel uses for its configuration:
+Это поля, которые Parcel использует для своей конфигурации:
 
 #### `main` / `module` / `browser`
 
-These are common fields used by other tools as well,
+Это общие поля, которые также используются другими инструментами,
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -29,14 +29,14 @@ These are common fields used by other tools as well,
 {% endsamplefile %}
 {% endsample %}
 
-They default to library mode (meaning they don't bundle dependencies): (see also [`targets`](#targets))
+По умолчанию они работают в режиме библиотеки (что означает, что они не связывают зависимости): (см. Также [`targets`](#targets))
 
-- `main` (and `module`) are the standard entry points to your library, `module` defaults to ESM module output.
-- `browser` is intended for a browser-specific build (e.g. without some native features).
+- `main` (and `module`) являются стандартными точками входа в вашу библиотеку, по умолчанию для `module` используется вывод модуля ESM.
+- `browser` предназначен для сборки для конкретного браузера (например, без некоторых встроенных функций).
 
-If one these fields is specified, Parcel will create a target for that field (no property in [`targets`](#targets) is needed)
+Если указано одно из этих полей, Parcel создаст цель для этого поля (свойство в [`targets`](#targets) не требуется)
 
-To make Parcel ignore one of these fields, specify `false` in `target.(main|browser|module)`:
+Чтобы Parcel игнорировал одно из этих полей, укажите `false` в `target.(main|browser|module)`:
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -53,11 +53,11 @@ To make Parcel ignore one of these fields, specify `false` in `target.(main|brow
 {% endsamplefile %}
 {% endsample %}
 
-If the `browser` field is an [object](/features/module-resolution/#package.json-browser-field), `package.json#browser[pkgName]` can be used instead of `package.json#browser`.
+Если поле `browser` является [объектом](/features/module-resolution/#package.json-browser-field),`package.json#browser[pkgName]` может использоваться вместо `package.json#browser`.
 
-#### custom targets
+#### Специальные цели
 
-To create your own target (without any of the semantics of the [common target](#main-%2F-module-%2F-browser) described previously), add a top-level field with your target's name and output path. You also need to add it to [`targets`](#targets) to make Parcel recognize that field.
+Чтобы создать свою собственную цель (без какой-либо семантики [common target](#main-%2F-module-%2F-browser), описанной ранее), добавьте поле верхнего уровня с именем вашей цели и путем вывода. Вам также необходимо добавить его в [`targets`](#targets), чтобы Parcel распознал это поле.
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -76,7 +76,7 @@ To create your own target (without any of the semantics of the [common target](#
 
 #### `source`
 
-Specify the entry points for your source code which gets mapped to your targets, can be a string or an array.
+Укажите точки входа для исходного кода, который сопоставляется с вашими целями и может быть строкой или массивом.
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -100,11 +100,11 @@ Specify the entry points for your source code which gets mapped to your targets,
 {% endsamplefile %}
 {% endsample %}
 
-See [Specifying Entrypoints](/getting-started/configuration/#specifying-entrypoints).
+См. [Specifying Entrypoints](/getting-started/configuration/#specifying-entrypoints).
 
 #### `targets`
 
-Targets are configured via the `package.json#targets` field.
+Цели настраиваются через поле `package.json#targets`.
 
 ```json
 {
@@ -129,26 +129,30 @@ Each target has a name which corresponds to a top-level `package.json` field
 such as `package.json#main` or `package.json#app` which specify the primary
 entry point for that target.
 
-Each of those targets contains the target's environment configuration (all of these properties are optional):
+У каждой цели есть имя, соответствующее полю верхнего уровня `package.json`,
+например `package.json#main` или `package.json#app`, которые определяют основную
+точку входа для этой цели.
+
+Каждая из этих целей содержит конфигурацию среды цели (все эти свойства не являются обязательными):
 
 <div style="font-size: 0.9em">
 
 | Option               | Possible values                                     | Description                                                                                                                                                                 |
 | -------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `context`            | [see below](#context)                               | In which runtime the bundles should run.                                                                                                                                    |
-| `distDir`            | `string`                                            | Specify output folder (as opposed to output file)                                                                                                                           |
-| `engines`            | [`package.json#engines`](#engines-%2F-browserslist) | Higher priority than `package.json#engines`                                                                                                                                 |
-| `includeNodeModules` | [see below](#includenodemodules)                    | Whether to bundle all/none/some `node_module` dependencies                                                                                                                  |
-| `isLibrary`          | `boolean`                                           | Library as in "npm library"                                                                                                                                                 |
-| `minify`             | `boolean`                                           | Whether to enable minification (exact behaviour is determined by plugins). <br> Set by [`--no-minify`](/features/cli/#parameters-specific-to-build)                         |
-| `outputFormat`       | `'global' | 'esmodule' | 'commonjs'`                | Which type of imports/exports should be emitted                                                                                                                             |
-| `publicUrl`          | `string`                                            | The public url of the bundle at runtime                                                                                                                                     |
-| `scopeHoist`         | `boolean`                                           | Whether to enable scope hoisting <br> Needs to be `true` for ESM and CommonJS `outputFormat`. <br> Set by [`--no-scope-hoist`](/features/cli/#parameters-specific-to-build) |
-| `sourceMap`          | [see below](#sourcemap)                             | Enable/disable sourcemap and set options. <br> Overwritten by [`--no-source-maps`](/features/cli/#general-parameters)                                                       |
+| `context`            | [see below](#context)                               | В какой среде выполнения пакеты должны работать.                                                                                                                                    |
+| `distDir`            | `string`                                            | Укажите папку вывода (в отличие от файла вывода)                                                                                                                           |
+| `engines`            | [`package.json#engines`](#engines-%2F-browserslist) | Более высокий приоритет, чем `package.json#engines`                                                                                                                                 |
+| `includeNodeModules` | [see below](#includenodemodules)                    | Объединять ли все/нет/некоторые зависимости `node_module`                                                                                                                  |
+| `isLibrary`          | `boolean`                                           | Библиотека как в "npm library"                                                                                                                                                 |
+| `minify`             | `boolean`                                           | Включить ли минификацию (точное поведение определяется плагинами). <br> Установлено [`--no-minify`](/features/cli/#parameters-specific-to-build)                         |
+| `outputFormat`       | `'global' | 'esmodule' | 'commonjs'`                | Какой тип импорта/экспорта должен быть выпущен                                                                                                                             |
+| `publicUrl`          | `string`                                            | Общедоступный URL-адрес пакета во время выполнения                                                                                                                                     |
+| `scopeHoist`         | `boolean`                                           | Разрешить ли подъем области видимости <br> Должен быть `true` для ESM и CommonJS `outputFormat`. <br> Установлено [`--no-scope-hoist`](/features/cli/#parameters-specific-to-build) |
+| `sourceMap`          | [see below](#sourcemap)                             | Включить/выключить карту источников и установить параметры. <br> Заменено на [`--no-source-maps`](/features/cli/#general-parameters)                                                       |
 
 </div>
 
-However, a lot of the normal configuration for building a library is already provided by default for you:
+Однако большая часть стандартной конфигурации для создания библиотеки уже предоставлена ​​вам по умолчанию:
 
 ```cs
 targets = {
@@ -178,43 +182,45 @@ targets = {
 
 ##### `context`
 
-Possible values are `'node' | 'browser' | 'web-worker' | 'service-worker' | 'electron-main' | 'electron-renderer'`.
+Возможные значения: `'node' | 'browser' | 'web-worker' | 'service-worker' | 'electron-main' | 'electron-renderer'`.
 
-These values can be used by plugins (e.g. a service worker url should not contain a hash, a webworker can use `importScripts`).
+Эти значения могут использоваться подключаемыми модулями (например, URL-адрес сервис-воркера не должен содержать хеш-код, веб-работник может использовать `importScripts`).
 
-For the [common targets](#main-%2F-module-%2F-browser), these are inferred from the target:
+Для [common targets](#main-%2F-module-%2F-browser) они выводятся из цели:
 
-- The `main` target has the context `node` if there is `browser` target or `engines.node != null && engines.browsers == null`, and `browser` otherwise.
-- The `module` target has the context `node` if there is `browser` target and `browser` otherwise.
-- The `browser` target has context `browser`.
+- У цели `main` есть контекст `node`, если есть цель `browser` или `engines.node != null && engines.browsers == null`, иначе `browser`.
+- У цели `module` есть контекст `node`, если есть цель `browser`, иначе `browser`.
+- У цели `browser` есть контекст` browser`.
 
 ##### `includeNodeModules`
 
-This fields defaults to `false` when `isLibrary` is true. Possible values are:
+По умолчанию это поле имеет значение false, если isLibrary имеет значение true. Возможные значения:
 
-- `false`: to include none `node_modules` package
-- an `array`: a list of packages names or wildcards to _include_
-- an `object`: `includeNodeModules[pkgName] ?? true` determines if it is included. (e.g. `{ "lodash": false }`)
+- `false`: не включать пакет `node_modules`
+- an `array`: список имен пакетов или подстановочных знаков для _include_
+- an `object`: `includeNodeModules[pkgName] ?? true` определяет, включен ли он. (например, `{ "lodash": false }`)
 
-See [Module Resolution](/features/module-resolution#externals) for more information.
+См. [Module Resolution](/features/module-resolution#externals) для получения дополнительной информации.
 
 ##### `sourceMap`
 
-Can be a boolean (to simply enable / disable source maps) or an option (which is somewhat equivlant to `true`):
+Может быть логическим (чтобы просто включить / отключить исходные карты) или параметром (который несколько эквивалентен " истине`):
 
 | Option        | Default value                       | Description                                                                                                     |
 | ------------- | ----------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| inline        | `false`                             | Include the sourcemap as a data-url in the bundle (in the `sourceMappingURL`)                                   |
-| inlineSources | `false`                             | Should the sourcemap contain the sources contents (otherwise, they will be loaded from `${sourceRoot}/$(name)`) |
-| sourceRoot    | `path.relative(bundle, pojectRoot)` | Essentially the public url for the sources                                                                      |
+| inline        | `false`                             | Включите исходную карту в качестве url-адреса данных в пакет (в `sourceMappingURL`)                                   |
+| inlineSources | `false`                             | Если исходная карта содержит содержимое источников (в противном случае они будут загружены из `${sourceRoot}/$(name)`) |
+| sourceRoot    | `path.relative(bundle, pojectRoot)` | По сути это публичный url для источников                                                                      |
 
-The [--no-source-maps](/features/cli/#general-parameters) CLI parameter sets the default value to `false` (as opposed to `true`).
+Параметр CLI [--no-source-maps](/features/cli/#general-parameters) устанавливает значение по умолчанию на `false` (в отличие от` true`).
 
 #### `engines` / `browserslist`
 
 These top-level fields set the default value for `target.*.engines.browsers` and `target.*.engines`, respectively.
 
-Specifies the [environment](/getting-started/configuration/#environments).
+Эти поля верхнего уровня устанавливают значение по умолчанию для `target.*.engines.browsers` и `target.*.engines` соответственно.
+
+Определяет [environment](/getting-started/configuration/#environments).
 {% sample %}
 {% samplefile "package.json" %}
 
@@ -242,11 +248,11 @@ Specifies the [environment](/getting-started/configuration/#environments).
 
 #### `alias`
 
-See [Module Resolution](/features/module-resolution/#aliases)
+См. [Module Resolution](/features/module-resolution/#aliases)
 
-### Which `package.json` is used when specifying multiple entries (packages)
+### Какой `package.json` используется при указании нескольких записей (пакетов)
 
-All paths are relative to `/some/dir/my-monorepo`.
+Все пути относительно `/some/dir/my-monorepo`.
 
 | cwd                  |  entries                      |  used `pkg.json#*` (fields described below)  |
 | -------------------- | ----------------------------- | -------------------------------------------- |
