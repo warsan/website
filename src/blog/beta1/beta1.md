@@ -99,8 +99,8 @@ For example, the below screenshot shows an error that would typically only inclu
 
 ## Попробуйте!
 
-Если вы ждали, чтобы попробовать Parcel 2, сейчас самое время! Вы можете установить его, запустив yarn add parcel@next. Если вам нужна помощь, вы можете задать вопросы в [обсуждениях Github](https://github.com/parcel-bundler/parcel/discussions), а если вы столкнетесь с ошибками, сообщите о них в [проблемах Github](https://github.com/parcel-bundler/parcel/issues). Вы также можете найти меня [@devongovett](https://twitter.com/devongovett) в Twitter. Мы очень рады услышать ваши отзывы!
+Если вы ждали, чтобы попробовать Parcel 2, сейчас самое время! Вы можете установить его, запустив yarn add parcel@next. Если вам нужна помощь, вы можете задать вопросы в [обсуждениях Github](https://github.com/parcel-bundler/parcel/discussions), а если вы столкнётесь с ошибками, сообщите о них в [проблемах Github](https://github.com/parcel-bundler/parcel/issues). Вы также можете найти меня [@devongovett](https://twitter.com/devongovett) в Twitter. Мы очень рады услышать ваши отзывы!
 
 - [Github](https://github.com/parcel-bundler/parcel)
 
-- [Support us on Open Collective](https://opencollective.com/parcel)
+- [Поддержите нас на Open Collective](https://opencollective.com/parcel)
