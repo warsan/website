@@ -4,11 +4,11 @@ eleventyNavigation:
   key: plugin-system-transformer
   title: Transformer
   order: 3
-summary: "A plugin type: Convert an asset (into another asset)"
+summary: "Тип плагина: конвертировать актив (в другой актив)"
 ---
 
-Transformers _transform_ single assets as they are discovered and added to the
-asset graph. They mostly call out to different compilers and preprocessors.
+Трансформаторы _трансформируют_ отдельные активы по мере их обнаружения и добавления в
+график активов. В основном они обращаются к разным компиляторам и препроцессорам.
 
 ```js
 import { Transformer } from "@parcel/plugin";

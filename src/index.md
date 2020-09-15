@@ -3,41 +3,41 @@ layout: layout.njk
 title: Parcel
 ---
 
-Parcel is a compiler for all your code, regardless of the language or toolchain.
+Parcel - это компилятор для всего вашего кода, независимо от языка или набора инструментов.
 
-Parcel takes all of your files and dependencies, transforms them, and merges
-them together into a smaller set of output files that can be used to run your
-code.
+Parcel принимает все ваши файлы и зависимости, преобразует их и объединяет
+их вместе в меньший набор выходных файлов, которые можно использовать для запуска вашего
+код.
 
-Parcel supports many different languages and file types out of the box, from
-web technologies like HTML, CSS, and JavaScript, to lower level languages like
-Rust, and anything that compiles to WebAssembly (WASM), to assets like images,
-fonts, videos, and more.
+Parcel сразу поддерживает множество разных языков и типов файлов, начиная с
+веб-технологий, таких как HTML, CSS и JavaScript, на языки более низкого уровня, такие как
+Rust и все, что компилируется в WebAssembly (WASM), в такие ресурсы, как изображения,
+шрифты, видео и многое другое.
 
-Parcel makes your code portable. You can build your code for different
-environments, for the web for your server, or for an app. You can even build
-multiple targets at once and have them live update as you make changes.
+Parcel делает ваш код переносимым. Вы можете создать свой код для разных
+среды, для Интернета для вашего сервера или для приложения. Вы даже можете построить
+сразу несколько целей и обновляйте их в реальном времени по мере внесения изменений.
 
-Parcel is fast and predictable. It compiles all of your files in isolation in
-parallel inside workers, caching all of them as it goes along. Caches are
-stable across machines and are only affected by the files and configs within
-your project (unless you want to pass specific environment variables).
+Посылка быстрая и предсказуемая. Он компилирует все ваши файлы изолированно в
+параллельно внутри воркеров, кэшируя их всех по мере продвижения. Кеши есть
+стабильна на всех машинах и зависит только от файлов и конфигураций внутри
+ваш проект (если вы не хотите передавать определенные переменные среды).
 
 <!--
 
-# "Design System":
+# "Дизайн-система":
 
-## Second Heading
+## Второй заголовок
 
-### Third Heading
+### Третий заголовок
 
-#### Fourth Heading
+#### Четвертый заголовок
 
-##### Fifth Heading
+##### Пятый заголовок
 
-###### Sixth Heading
+###### Шестой заголовок
 
-Welcome!
+Добро пожаловать!
 
 {% note %}
 ...
@@ -79,7 +79,7 @@ console.log("hello!");
 ```js/2
 import "x";
 
-console.log("hello!");
+console.log("привет!");
 ```
 
 {% endsamplefile %}

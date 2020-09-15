@@ -6,13 +6,13 @@ eleventyNavigation:
   order: 2
 ---
 
-As Parcel automatically generates sourcemaps by default, setting up debugging with Parcel involves minimal effort for the most part.
+Поскольку Parcel автоматически генерирует исходные карты по умолчанию, настройка отладки с помощью Parcel по большей части требует минимальных усилий.
 
-## Chrome Developer Tools
+## Инструменты разработчика Chrome
 
-Assuming that source maps are enabled, no extra configuration is required here.
+Предполагая, что исходные карты включены, дополнительная настройка здесь не требуется.
 
-For example, suppose you had a folder structure like the following:
+Например, предположим, что у вас есть структура папок, подобная следующей:
 
 {% sample "src/index.html" %}
 {% samplefile %}
@@ -55,22 +55,22 @@ document.getElementById("greeting").innerHTML = variable;
 
 (`package.json` only has `parcel-bundler` installed)
 
-With this setup, you can run `parcel src/index.html` and set breakpoints in the source code, as seen below:
+При такой настройке вы можете запустить `parcel src/index.html` и установить точки останова в исходном коде, как показано ниже:
 
 ![Example Chrome Breakpoints](../debugging1.png)
 
 ## Visual Studio Code
 
-Assuming a folder/file structure similar to the one shown above for Chrome developer tools, the following `launch.json` can be used with the [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) extension:
+Предполагая, что структура папок/файлов аналогична показанной выше для инструментов разработчика Chrome, следующий `launch.json` можно использовать с [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) расширением:
 
 {% sample %}
 {% samplefile "launch.json" %}
 
 ```json
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  // Используйте IntelliSense, чтобы узнать о возможных атрибутах.
+  // Наведите указатель мыши на описание существующих атрибутов.
+  // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
@@ -91,12 +91,12 @@ Assuming a folder/file structure similar to the one shown above for Chrome devel
 {% endsamplefile %}
 {% endsample %}
 
-Next, you will need to start the parcel dev server with your entry point, which here is `index.html`:
+Затем вам нужно будет запустить сервер parcel dev с вашей точкой входа, которая здесь `index.html`:
 
 ```
 $ parcel src/index.html
 ```
 
-The last step here is to actually start the debugging process by clicking Green arrow in the debug panel. You should now be able to set breakpoints in your code. The final result will look similar to the following:
+Последний шаг здесь - фактически запустить процесс отладки, щелкнув зеленую стрелку на панели отладки. Теперь вы можете устанавливать точки останова в своем коде. Окончательный результат будет выглядеть примерно так:
 
 ![Example Chrome Breakpoints](../debugging2.png)

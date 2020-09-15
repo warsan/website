@@ -6,7 +6,7 @@ eleventyNavigation:
   order: 6
 ---
 
-Compared to Webpack, Parcel's paradigm is to use your HTML file as the entry point, not merely the main script:
+По сравнению с Webpack парадигма Parcel заключается в использовании вашего HTML-файла в качестве точки входа, а не просто основного скрипта:
 
 {% sample "parcel index.html" %}
 {% samplefile "index.html" %}
@@ -31,21 +31,21 @@ ReactDom.render(<App />, document.getElementById("app"));
 {% endsamplefile %}
 {% endsample %}
 
-## HMR (Fast Refresh)
+## HMR (Быстрое обновление)
 
-Parcel has first-class support for _React Fast Refresh_ (which supersedes [react-hot-loader](https://github.com/gaearon/react-hot-loader), a userland plugin that botched HMR support onto React). It is (in most cases) able to retain state between reloads (even after an error).
+Parcel имеет первоклассную поддержку для _React Fast Refresh_ (который заменяет [react-hot-loader](https://github.com/gaearon/react-hot-loader), плагин пользовательского пространства, который испортил поддержку HMR на React). Он (в большинстве случаев) может сохранять состояние между перезагрузками (даже после ошибки).
 
-For further information, take a look at the [official documentation](https://reactnative.dev/docs/fast-refresh).
+Для получения дополнительной информации взгляните на [официальную документацию](https://reactnative.dev/docs/fast-refresh).
 
-#### Selected Limitations
+#### Избранные ограничения
 
-##### State in class components is reset between reloads
+##### Состояние компонентов класса сбрасывается между перезагрузками
 
-With class components slowly being deprecated, their state will not be preserved.
+Поскольку компоненты класса постепенно устаревают, их состояние не сохраняется.
 
-##### Declaring a Default Export Using a Function Expression Isn't Recognized
+##### Объявление экспорта по умолчанию с использованием выражения функции не распознаётся
 
-Editing this component would reset `value` because the Fast Refresh Babel plugin cannot instrument the default export declaration.
+Редактирование этого компонента приведет к сбросу значения, потому что плагин Fast Refresh Babel не может инструментировать декларацию экспорта по умолчанию.
 
 {% sample %}
 {% samplefile "Component.js" %}
@@ -82,9 +82,9 @@ ReactDom.render(<App />, ...);
 
 [See also Dan Abramov's tweet](https://twitter.com/dan_abramov/status/1255229440860262400)
 
-##### Exporting Values That Are Not Components Will Reset the State:
+##### Экспорт значений, не являющихся компонентами, приведет к сбросу состояния:
 
-Editing `Component` would reset the `value` state, because of the other non-component export.
+Редактирование `Component` приведет к сбросу состояния `value` из-за другого экспорта, не являющегося компонентом.
 
 {% sample %}
 {% samplefile "Component.js" %}
@@ -126,9 +126,9 @@ ReactDom.render(<App />, ...);
 {% endsamplefile %}
 {% endsample %}
 
-##### Modifying the Asset That Calls Render Will Reset All State:
+##### Изменение актива, вызывающего рендеринг, приведёт к сбросу всего состояния:
 
-Understandably, modifying `App` will call `ReactDom.render` again:
+Понятно, что изменение `App` снова вызовет `ReactDom.render`:
 
 {% sample %}
 {% samplefile "index.js" %}
@@ -145,4 +145,4 @@ ReactDom.render(<App />, ...);
 {% endsamplefile %}
 {% endsample %}
 
-(The HMR functionality is provided by `@parcel/transformer-react-refresh-babel`, `@parcel/transformer-react-refresh-wrap` and `@parcel/runtime-react-refresh`.)
+(Функциональность HMR обеспечивается `@parcel/transformer-react-refresh-babel`, `@parcel/transformer-react-refresh-wrap` и `@parcel/runtime-react-refresh`.)

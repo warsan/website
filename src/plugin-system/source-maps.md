@@ -6,43 +6,43 @@ eleventyNavigation:
   order: 15
 ---
 
-Parcel utilizes the package `@parcel/source-maps` for processing all source maps to ensure performance and reliability when manipulating source maps across plugins and Parcel's core. This library has been written from the ground up in C++ with both source map manipulation and concatenation in mind and gave us a 20x performance improvement over our old solution using Mozilla's [`source-map`](https://github.com/mozilla/source-map) library and some internal utilities. This improvement in performance is mainly due to optimizations in the data structures and the way in which we cache source maps.
+Parcel использует пакет `@parcel/source-maps` для обработки всех исходных карт, чтобы обеспечить производительность и надежность при манипулировании исходными картами через плагины и ядро ​​Parcel. Эта библиотека была написана с нуля на C++ с учетом как манипулирования исходной картой, так и конкатенации, и дала нам 20-кратное повышение производительности по сравнению с нашим старым решением с использованием Mozilla. [`source-map`](https://github.com/mozilla/source-map) библиотека и некоторые внутренние утилиты. Это улучшение производительности в основном связано с оптимизацией структур данных и способом кэширования исходных карт.
 
-## How to use the library
+## Как пользоваться библиотекой
 
-To use the library, you start off by creating an instance of the exported `SourceMap` class, on which you can call various functions to add and edit source mappings.
+Чтобы использовать библиотеку, вы начинаете с создания экземпляра экспортированного класса SourceMap, для которого вы можете вызывать различные функции для добавления и редактирования сопоставлений источников.
 
-Below is an example covering all ways of adding mappings to a `SourceMap` instance:
+Ниже приведен пример, охватывающий все способы добавления сопоставлений в экземпляр `SourceMap`:
 
 ```js
 import SourceMap from "@parcel/source-map";
 
 let sourcemap = new SourceMap();
 
-// Each function that adds mappings has optional offset arguments.
-// These can be used to offset the generated mappings by a certain amount.
+// Каждая функция, которая добавляет сопоставления, имеет необязательные аргументы смещения.
+// Их можно использовать для компенсации сгенерированных сопоставлений на определенную величину.
 let lineOffset = 0;
 let columnOffset = 0;
 
-// Add indexed mappings
-// these are mappings that can sometimes be extracted from a library even before they get converted into VLQ Mappings
+// Добавить индексированные сопоставления
+// это сопоставления, которые иногда можно извлечь из библиотеки еще до того, как они будут преобразованы в сопоставления VLQ
 sourcemap.addIndexedMappings(
   [
     {
       generated: {
-        // line index starts at 1
+        // индекс строки начинается с 1
         line: 1,
-        // column index starts at 0
+        // индекс столбца начинается с 0
         column: 4,
       },
       original: {
-        // line index starts at 1
+        // индекс строки начинается с 1
         line: 1,
-        // column index starts at 0
+        // индекс столбца начинается с 0
         column: 4,
       },
       source: "index.js",
-      // Name is optional
+      // Имя не обязательно
       name: "A",
     },
   ],
@@ -50,7 +50,7 @@ sourcemap.addIndexedMappings(
   columnOffset
 );
 
-// Add raw mappings, this is what would be outputted into a vlq encoded source-map
+// Добавьте необработанные сопоставления, это то, что будет выводиться в исходную карту в кодировке vlq
 sourcemap.addRawMappings(
   {
     file: "min.js",
@@ -64,21 +64,21 @@ sourcemap.addRawMappings(
   columnOffset
 );
 
-// Sourcemaps can be saved as buffers (flatbuffers), this is what we use for caching in Parcel.
-// You can instantiate a SourceMap with these buffer values using the `addBufferMappings` function
+// Исходные карты можно сохранять в виде буферов (плоских буферов), это то, что мы используем для кеширования в Parcel.
+// Вы можете создать экземпляр SourceMap с этими значениями буфера, используя функцию `addBufferMappings`.
 let originalMapBuffer = new Buffer();
 sourcemap.addBufferMappings(originalMapBuffer, lineOffset, columnOffset);
 ```
 
-## Transformations/Manipulations
+## Преобразования/манипуляции
 
-If your plugin does any code manipulations, you should ensure that it creates correct mappings to the original source code to guarantee that we still end up creating an accurate source map at the end of the bundling process. You are expected to return a `SourceMap` instance at the end of a transform in a [Transformer](/plugin-system/transformer/) plugin. We also provide the source map from the previous transform to ensure you map to the original source code and not just the output of the previous transform.
+Если ваш плагин выполняет какие-либо манипуляции с кодом, вы должны убедиться, что он создает правильные сопоставления с исходным исходным кодом, чтобы гарантировать, что мы все равно создадим точную карту исходного кода в конце процесса объединения. Ожидается, что вы вернете экземпляр SourceMap в конце преобразования в плагине [Transformer](/plugin-system/transformer/). Мы также предоставляем исходную карту из предыдущего преобразования, чтобы гарантировать соответствие исходному  коду, а не только выходным данным предыдущего преобразования.
 
-The `asset` value that gets passed in the `parse`, `transform` and `generate` functions of a transformer plugin contains a function called `getMap()` and `getMapBuffer()`, these functions can be used to get a SourceMap instance (`getMap()`) and the cached SourceMap Buffer (`getMapBuffer()`).
+Значение `asset`, которое передается в функциях `parse`, `transform` и `generate` плагина-преобразователя, содержит функцию, называемую `getMap()` и `getMapBuffer()`, эти функции могут использоваться для получения Экземпляр SourceMap (`getMap()`) и кешированный буфер SourceMap (`getMapBuffer()`).
 
-You are free to manipulate the sourcemap at any of these steps in the transformer as long as you ensure the sourcemap that gets returned in `generate` maps to the original sourcefile correctly.
+Вы можете свободно манипулировать исходной картой на любом из этих шагов в преобразователе до тех пор, пока вы убедитесь, что исходная карта, которая возвращается в `generate`, правильно отображает исходный файл.
 
-Below is an example on how to manipulate sourcemaps in a transformer plugin:
+Ниже приведен пример того, как манипулировать исходными картами в плагине трансформатора:
 
 ```js
 import { Transformer } from "@parcel/plugin";
@@ -92,38 +92,37 @@ export default new Transformer({
 
     let map = null;
     if (compilationResult.map) {
-      // If the compilationResult returned a map we convert it to a Parcel SourceMap instance
+      // Если compilationResult вернул карту, мы преобразуем ее в экземпляр Parcel SourceMap.
       map = new SourceMap();
 
-      // The dummy compiler returned a full, encoded sourcemap with vlq mappings
-      // Some compilers might have the possibility of returning indexedMappings which might improve performance (like Babel does)
-      // in general each compiler is able to return rawMappings, so it's always a safe bet to use this
+      // Фиктивный компилятор вернул полную закодированную исходную карту с сопоставлениями vlq
+      // Некоторые компиляторы могут иметь возможность возвращать indexedMappings, что может улучшить производительность (например, Babel).
+      // в общем, каждый компилятор может возвращать rawMappings, поэтому всегда лучше использовать это
       map.addRawMappings(compilationResult.map);
 
-      // We get the original map buffer from the asset
-      // to extend our mappings on top of it to ensure we are mapping to the original source
-      // instead of the previous transformation
+      // Получаем исходный буфер карты из ассета, чтобы расширить наши сопоставления поверх него 
+      // и чтобы убедиться, что мы сопоставляемся с исходным источником вместо предыдущего преобразования
       let originalMapBuffer = await asset.getMapBuffer();
       if (originalMapBuffer) {
-        // The `extends` function uses the provided map to remap the original source positions of the map it is called on
-        // So in this case the original source positions of `map` get remapped to the positions in `originalMapBuffer`
+        // Функция `extends` использует предоставленную карту для переназначения исходных исходных позиций карты, на которой она вызывается.
+        // Таким образом, в этом случае исходные исходные позиции `map` переназначаются на позиции в `originalMapBuffer`
         map.extends(originalMapBuffer);
       }
     }
 
     return {
       code: compilationResult.code,
-      // Make sure to return the map
-      // we need it for concatenating the sourcemaps together in the final bundle's sourcemap
+      // Обязательно верните карту
+      // это нужно для объединения исходных карт вместе в исходную карту финального пакета
       map,
     };
   },
 });
 ```
 
-If your compiler supports the option to pass in an existing sourcemap, you can also use that as it could result in more accurate/better sourcemaps than using the method in the previous example.
+Если ваш компилятор поддерживает возможность передачи существующей карты источников, вы также можете использовать ее, поскольку это может привести к получению более точных/лучших карт источников, чем использование метода в предыдущем примере.
 
-An example of how this would work:
+Пример того, как это будет работать:
 
 ```js
 import { Transformer } from "@parcel/plugin";
@@ -133,15 +132,15 @@ export default new Transformer({
   // ...
 
   async generate({ asset, ast, resolve, options }) {
-    // Get the original map from the asset
+    // Получите исходную карту из актива
     let originalMap = await asset.getMap();
     let compilationResult = dummyCompiler(await asset.getAST(), {
-      // Pass the VLQ encoded version of the originalMap to the compiler
+      // Передайте кодированную VLQ версию originalMap компилятору
       originalMap: originalMap.toVLQ(),
     });
 
-    // In this case the compiler is responsible for mapping to the original positions provided in the originalMap
-    // so we can just convert it to a Parcel SourceMap and return it
+    // В этом случае компилятор отвечает за отображение на исходные позиции, указанные в originalMap.
+    // поэтому мы можем просто преобразовать его в Parcel SourceMap и вернуть
     let map = new SourceMap();
     if (compilationResult.map) {
       map.addRawMappings(compilationResult.map);
@@ -157,9 +156,9 @@ export default new Transformer({
 
 ## Concatenating sourcemaps in Packagers
 
-If you're writing a custom packager, it's your responsibility to concatenate the sourcemaps of all the assets while packaging the assets. This is done by creating a new `SourceMap` instance and adding new mappings to it using the `addBufferMappings(buffer, lineOffset, columnOffset)` function. `lineOffset` should be equal to the line index at which the asset output starts.
+Если вы пишете собственный упаковщик, вы несете ответственность за объединение исходных карт всех ресурсов при их упаковке. Это делается путем создания нового экземпляра `SourceMap` и добавления к нему новых сопоставлений с помощью функции `addBufferMappings(buffer, lineOffset, columnOffset)`. `lineOffset` должен быть равен индексу строки, с которой начинается вывод актива.
 
-Below is an example of how to do this:
+Ниже приведен пример того, как это сделать:
 
 ```js
 import { Packager } from "@parcel/plugin";
@@ -167,13 +166,13 @@ import SourceMap from "@parcel/source-map";
 
 export default new Packager({
   async package({ bundle, options }) {
-    // We instantiate the contents variable, which will content a string which represents the entire output bundle
+    // Мы создаем экземпляр переменной содержимого, которая будет содержать строку, представляющую весь выходной пакет.
     let contents = "";
 
-    // We instantiate a new SourceMap to which we'll add all asset maps
+    // Мы создаем новую карту SourceMap, в которую добавим все карты ресурсов.
     let map = new SourceMap();
 
-    // This is a queue that reads in all file content and maps and saves them for use in the actual packaging
+    // Это очередь, которая считывает все содержимое файла и отображает и сохраняет их для использования в фактической упаковке.
     let queue = new PromiseQueue({ maxConcurrent: 32 });
     bundle.traverse((node) => {
       if (node.type === "asset") {
@@ -188,30 +187,30 @@ export default new Packager({
     });
 
     let i = 0;
-    // Process the entire queue...
+    // Обработать всю очередь...
     let results = await queue.run();
 
-    // We traverse the bundle and add the contents of each asset to contents and the mapBuffer's to the map
+    // Мы проходим по бандлу и добавляем содержимое каждого актива к содержимому, а mapBuffer - к карте.
     bundle.traverse((node) => {
       if (node.type === "asset") {
-        // Get the data from the queue results
+        // Получить данные из очереди результатов
         let { code, mapBuffer } = results[i];
 
-        // Add the output to the contents
+        // Добавьте вывод к содержимому
         let output = code || "";
         contents += output;
 
-        // If Parcel requires sourcemaps we add the mapBuffer to the map
+        // Если Parcel требует исходных карт, мы добавляем mapBuffer на карту
         if (options.sourceMaps) {
           if (mapBuffer) {
-            // we add the mapBuffer to the map with the lineOffset
-            // The lineOffset is equal to the line the content of the asset starts at
-            // which is the same as the contents length before this asset was added
+            // мы добавляем mapBuffer на карту с помощью lineOffset
+            // LineOffset равен строке, в которой начинается содержимое актива.
+            // что такое же, как длина содержимого до добавления этого ресурса
             map.addBufferMappings(mapBuffer, lineOffset);
           }
 
-          // We add the amount of lines of the current asset to the lineOffset
-          // this way we know the length of `contents` without having to recalculate it each time
+          // Добавляем количество строк текущего актива в lineOffset
+          // таким образом мы узнаем длину `contents`, не пересчитывая ее каждый раз
           lineOffset += countLines(output) + 1;
         }
 
@@ -219,17 +218,17 @@ export default new Packager({
       }
     });
 
-    // Return the contents and map so Parcel Core can save these to disk or get post-processed by optimizers
+    // Верните содержимое и карту, чтобы Parcel Core мог сохранить их на диск или подвергнуть пост-обработке оптимизаторам.
     return { contents, map };
   },
 });
 ```
 
-### Concatenating ASTs
+### Объединение AST
 
-If you're concatenating ASTs instead of source contents you already have the source mappings embedded into the AST which you can use to generate the final sourcemap. You however have to ensure that those mappings stay intact while editing the nodes, sometimes this can be quite challenging if you're doing a lot of modifications.
+Если вы объединяете AST вместо исходного содержимого, у вас уже есть сопоставления источников, встроенные в AST, которые вы можете использовать для генерации окончательной исходной карты. Однако вы должны убедиться, что эти сопоставления остаются нетронутыми при редактировании узлов, иногда это может быть довольно сложно, если вы делаете много изменений.
 
-An example of how this works:
+Пример того, как это работает:
 
 ```js
 import { Packager } from "@parcel/plugin";
@@ -237,16 +236,16 @@ import SourceMap from "@parcel/source-map";
 
 export default new Packager({
   async package({ bundle, options }) {
-    // Do the AST concatenation and return the compiled result
+    // Выполните конкатенацию AST и верните скомпилированный результат
     let compilationResult = concatAndCompile(bundle);
 
-    // Create the final packaged sourcemap
+    // Создайте окончательную упакованную исходную карту
     let map = new SourceMap();
     if (compilationResult.map) {
       map.addRawMappings(compilationResult.map);
     }
 
-    // Return the compiled code and map
+    // Верните скомпилированный код и карту
     return {
       code: compilationResult.code,
       map,
@@ -255,24 +254,26 @@ export default new Packager({
 });
 ```
 
-## Postprocessing source maps in optimizers
+## Постобработка исходных карт в оптимизаторах
 
-Using source maps in optimizers is identical to how you use it in transformers as you get one file as input and are expected to return that same file as output but optimized.
+Использование исходных карт в оптимизаторах идентично тому, как вы используете их в преобразователях, поскольку вы получаете один файл в качестве ввода и, как ожидается, вернете тот же файл в качестве вывода, но оптимизированный.
 
-The only difference with optimizers is that the map is not provided as part of an asset but rather as a separate parameter/option as you can see in the code snippet below. As always, the map is an instance of the `SourceMap` class.
+Единственная разница с оптимизаторами заключается в том, что карта предоставляется не как часть актива, а как отдельный параметр/опция, как вы можете видеть во фрагменте кода ниже. Как всегда, карта является экземпляром класса `SourceMap`.
 
 ```js
-// The contents and map are passed separately
+// Содержание и карта передаются отдельно
 async optimize({ bundle, contents, map }) {
   return { contents, map }
 }
 ```
 
-## Diagnosing issues
+## Диагностика проблем
 
 If you encounter incorrect mappings and want to debug these mappings we have built tools that can help you diagnose these issues. By running a specific reporter (`@parcel/reporter-sourcemap-visualiser`), Parcel create a `sourcemap-info.json` file with all the necessary information to visualize all the mappings and source content.
 
-To enable it, add a custom `.parcelrc`:
+Если вы сталкиваетесь с неправильными сопоставлениями и хотите отладить эти сопоставления, мы создали инструменты, которые помогут вам диагностировать эти проблемы. Запустив определенный репортер (`@parcel/reporter-sourcemap-visualiser`), Parcel создает файл `sourcemap-info.json` со всей необходимой информацией для визуализации всех сопоставлений и исходного содержимого.
+
+Чтобы включить его, добавьте собственный файл `.parcelrc`:
 
 ```json
 {
@@ -281,7 +282,7 @@ To enable it, add a custom `.parcelrc`:
 }
 ```
 
-After the reporter has created the `sourcemap-info.json` file, you can upload it to the [sourcemap visualizer](https://sourcemap-visualiser.now.sh/)
+После того, как репортер создал файл `sourcemap-info.json`, вы можете загрузить его в [sourcemap visualizer](https://sourcemap-visualiser.now.sh/)
 
 ## `@parcel/source-maps`: API
 

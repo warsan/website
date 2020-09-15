@@ -4,11 +4,11 @@ eleventyNavigation:
   key: plugin-system-validator
   title: Validator
   order: 11
-summary: "A plugin type: Analyze assets and emit warnings and errors"
+summary: "Тип плагина: анализировать ресурсы и выдавать предупреждения и ошибки."
 ---
 
-Validators receive an asset, and can throw errors if that asset is invalid
-in some way, e.g. type errors or linting errors.
+Валидаторы получают актив и могут выдавать ошибки, если этот актив недействителен.
+каким-то образом, например ошибки типа или ошибки линтинга.
 
 ```js
 import { Validator } from "@parcel/plugin";
@@ -21,7 +21,7 @@ export default new Validator({
 });
 ```
 
-Some validators (such as `@parcel/validator-typescript`) may wish to maintain a project-wide cache for efficiency. For these cases, it is appropriate to use a different interface where parcel hands _all_ changed files to the validator at the same time:
+Некоторые валидаторы (такие как `@parcel/validator-typescript`) могут пожелать поддерживать кеш всего проекта для повышения эффективности. В этих случаях целесообразно использовать другой интерфейс, в котором посылки передают _все_ файлы валидатору одновременно:
 
 ```js
 import { Validator } from "@parcel/plugin";
@@ -34,8 +34,8 @@ export default new Validator({
 });
 ```
 
-If your plugin implements `validateAll`, Parcel will make sure to always invoke this method on the same thread (so that your cache state is accessible).
+Если ваш плагин реализует `validateAll`, Parcel всегда будет вызывать этот метод в одном потоке (чтобы состояние вашего кеша было доступно).
 
-## Relevant API
+## Соответствующий API
 
 {% include "../../api/validator.html" %}
