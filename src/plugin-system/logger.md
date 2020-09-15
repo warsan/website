@@ -4,74 +4,76 @@ eleventyNavigation:
   key: plugin-system-logger
   title: Logger
   order: 14
-summary: The way to output messages to your users
+summary: Способ вывода сообщений для ваших пользователей
 ---
 
-## Introduction
+## Введение
 
-Every time you want to log something in a plugin, you have to go through the logger. Every function of a plugin is passed a logger instance as a parameter. This instance has already all the information Parcel needs to identify your plugin as the origin of the message.
+Каждый раз, когда вы хотите что-то зарегистрировать в плагине, вам нужно пройти через регистратор. Каждой функции плагина передается экземпляр регистратора в качестве параметра. В этом экземпляре уже есть вся информация, необходимая Parcel, чтобы идентифицировать ваш плагин как источник сообщения.
 
-The logger uses a format we called [diagnostics](#diagnostics) which is a JavaScript object with a standardized set of properties, a [Reporter](/plugin-system/reporter/) uses this information to log your message to its target format while having complete freedom as to how this data should be formatted and displayed.
+Регистратор использует формат, который мы назвали [diagnostics](#diagnostics), который представляет собой объект JavaScript со стандартизованным набором свойств, [Reporter](/plugin-system/reporter/) использует эту информацию для регистрации вашего сообщения в целевом формате. имея полную свободу в том, как эти данные должны быть отформатированы и отображены.
 
 There is a function for each type of log you can output, these functions are `verbose(diagnostic)`, `info(diagnostic)`, `log(diagnostic)`, `warn(diagnostic)` and `error(diagnostic)`. These log levels are used for defining the severity of your log message, this is useful for formatting and filtering. For example, the end user can use the flag [`--log-level`](/features/cli/#general-parameters) to define which messages it wants to see. Each of these functions also have a single parameter called diagnostic, this parameter can either be a single [diagnostic](#diagnostics) object or an array of [diagnostics](#diagnostics), depending on how many messages you want to log.
 
-### Log levels
+Существует функция для каждого типа журнала, который вы можете выводить, это функции `verbose(diagnostic)`, `info(diagnostic)`, `log(diagnostic)`, `warn(diagnostic)` and `error(diagnostic)`. Эти уровни журнала используются для определения серьезности вашего сообщения журнала, это полезно для форматирования и фильтрации. Например, конечный пользователь может использовать флаг [`--log-level`](/features/cli/#general-parameters), чтобы определить, какие сообщения он хочет видеть. У каждой из этих функций также есть единственный параметр, называемый диагностикой, этот параметр может быть либо одним объектом [diagnostic](#diagnostics), либо массивом [diagnostics](#diagnostics), в зависимости от того, сколько сообщений вы хотите зарегистрировать.
+
+### Уровни журнала
 
 | Level   | When to use                                                                                                                             | function(s)                                             |
 | ------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| verbose | Use this when you want to log anything that can be used for debugging issues, while not being particularly interesting for normal usage | `logger.verbose(...)`                                   |
-| info    | Use this to log any information that is not related to a problem                                                                        | `logger.info(...)` or `logger.log(...)`                 |
-| warning | Use this to log anything related to a problem that is not critical                                                                      | `logger.warning(...)`                                   |
-| error   | Use this to log any critical issues, you probably want to throw a ThrowableDiagnostic instead                                           | `logger.error(...)` or `throw ThrowableDiagnostic(...)` |
+| verbose | Используйте это, если вы хотите регистрировать все, что можно использовать для отладки проблем, но не особенно интересно для обычного использования | `logger.verbose(...)`                                   |
+| info    | Используйте это для регистрации любой информации, не связанной с проблемой                                                                        | `logger.info(...)` or `logger.log(...)`                 |
+| warning | Используйте это, чтобы регистрировать все, что связано с проблемой, которая не является критической.                                                                      | `logger.warning(...)`                                   |
+| error   | Используйте это для регистрации любых критических проблем, вы, вероятно, захотите вместо этого выбросить ThrowableDiagnostic                                           | `logger.error(...)` или `throw ThrowableDiagnostic(...)` |
 
-## Diagnostics
+## Диагностика
 
-A `Diagnostic` is a JavaScript object with a predefined set of properties that are required to create a useful log message, this can be anything from a verbose message to an error. This object can includes a message, information about the file, a codeframe, error information and hints on how to potentially resolve the issue.
+`Diagnostic` - это объект JavaScript с предопределенным набором свойств, необходимых для создания полезного сообщения журнала, это может быть что угодно, от подробного сообщения до ошибки. Этот объект может включать сообщение, информацию о файле, кодовом кадре, информацию об ошибке и подсказки о том, как потенциально решить проблему.
 
-### The properties of a Diagnostic
+### Свойства диагностики
 
 #### General fields
 
-- `message`(string): This is the message you want to log.
-- `filePath`(string): Path to the file this diagnostic is about (optional)
-- `language`(string): Language of the file this diagnostic is about (optional)
-- `codeFrame`[(DiagnosticCodeFrame)](#diagnosticcodeframe): A code frame points to a certain location(s) in the file this diagnostic is linked to (optional)
-- `hints`(Array\<string\>): A list of strings that suggest ways to resolve this issue. (optional)
+- `message`(string): Это сообщение, которое вы хотите зарегистрировать.
+- `filePath`(string): Путь к файлу, о котором идет речь в диагностике (необязательно)
+- `language`(string): Язык файла, о котором идет речь (необязательно)
+- `codeFrame`[(DiagnosticCodeFrame)](#diagnosticcodeframe): Кодовый фрейм указывает на определенные места в файле, с которым связана эта диагностика (необязательно)
+- `hints`(Array\<string\>): Список строк, предлагающих способы решения этой проблемы. (по желанию)
 
-#### Error related fields
+#### Поля, связанные с ошибкой
 
-These fields are intended for whenever you are describing an error.
+Эти поля предназначены для тех случаев, когда вы описываете ошибку.
 
-- `stack`(string): A stacktrace of an error (optional)
-- `name`(string): A name of an error (optional)
+- `stack`(string): Трассировка стека ошибки (необязательно)
+- `name`(string): Название ошибки (необязательно)
 
 #### `DiagnosticCodeFrame`
 
-The `DiagnosticCodeFrame` Object describes how to format a code frame. A code frame is a visualization of a piece of code, with a certain amount of code highlights that point to certain chunk(s) inside the code.
+The `DiagnosticCodeFrame` Объект описывает, как форматировать кодовый фрейм. Кадр кода - это визуализация фрагмента кода с определенным количеством выделенных фрагментов кода, которые указывают на определенные фрагменты внутри кода.
 
-For the formatting of these objects we've built our own code frame library `@parcel/codeframe` which supports multiple highlights and code formatting.
+Для форматирования этих объектов мы создали нашу собственную библиотеку фреймов кода `@parcel/codeframe`, которая поддерживает несколько выделений и форматирование кода.
 
-##### Properties
+##### Свойства
 
-- `code`(string): The contents of the source file (not required if a filePath is provided to the diagnostic, you however have to be 100% sure the code that this codeframe applies to is still identical to the code at the filePath's location)
-- `codeHighlights`: Array of CodeHighlight Object(s)
-  - `start`({ line: number, column: number }): the location of the first character that should get highlighted for this highlight, both line and column start at **1**
-  - `end`({ line: number, column: number }): the location of the last character that should get highlighted for this highlight, both line and column start at **1**
-  - `message`(string): A message that should be displayed at this location in the code (optional)
+- `code`(string): Содержимое исходного файла (не требуется, если для диагностики предоставляется filePath, однако вы должны быть на 100% уверены, что код, к которому применяется этот кодовый фрейм, по-прежнему идентичен коду в расположении filePath)
+- `codeHighlights`: Массив объектов CodeHighlight
+  - `start`({ line: number, column: number }): расположение первого символа, который должен быть выделен для этого выделения, строка и столбец начинаются с **1**
+  - `end`({ line: number, column: number }): расположение последнего символа, который должен быть выделен для этого выделения, и строка, и столбец начинаются с **1**
+  - `message`(string): Сообщение, которое должно отображаться в этом месте кода (необязательно)
 
-### Formatting the messages
+### Форматирование сообщений
 
-To format the messages in a diagnostic, we use a very minimal version of markdown specifically built to be compatible with terminals and anything else, while also not being too cryptic when displayed without any formatting. For our `@parcel/reporter-cli`  we use our own `@parcel/markdown-ansi` library that converts these markdown strings to ANSI escape sequences.
+Чтобы отформатировать сообщения в диагностике, мы используем очень минимальную версию уценки, специально созданную для совместимости с терминалами и всем остальным, а также не слишком загадочную при отображении без какого-либо форматирования. Для нашего `@parcel/reporter-cli` мы используем нашу собственную библиотеку `@parcel/markdown-ansi`, которая преобразует эти строки уценки в escape-последовательности ANSI.
 
-The supported markdown features are `**bold**`, `*italic*`/`_italic_`, `__underlined__` and `~~strikethrough~~`.
+Поддерживаемые функции уценки: `**bold**`, `*italic*`/`_italic_`, `__underlined__` и `~~strikethrough~~`.
 
-## How to log a message
+## Как записать сообщение
 
-Once you're familiar with the Diagnostic format, you can log anything you want, from verbose messages to errors with codeframes and hints so your users don't have to search the web for hours to find a solution.
+Когда вы познакомитесь с диагностическим форматом, вы сможете регистрировать все, что захотите, от подробных сообщений до ошибок с кодовыми кадрами и подсказками, чтобы вашим пользователям не приходилось часами искать в Интернете решение.
 
-For errors you can also throw an error that has been augmented with diagnostic information, this is very useful for failing a build while also providing a useful error message, with a codeframe and suggestions. This is also the recommended way of throwing errors in Parcel.
+В случае ошибок вы также можете выдать ошибку, которая была дополнена диагностической информацией, это очень полезно для сбоя сборки, а также предоставляет полезное сообщение об ошибке с кодовым кадром и предложениями. Это также рекомендуемый способ выдачи ошибок в Parcel.
 
-An example for every method you can use:
+Пример каждого метода, который вы можете использовать:
 
 ```js
 import { Transformer } from "@parcel/plugin";
@@ -128,7 +130,7 @@ export default new Transformer({
                   line: 2,
                   column: 3,
                 },
-                message: "This is an example message inside a **codeframe**",
+                message: "Это пример сообщения внутри **codeframe**",
               },
             ],
           },
@@ -144,6 +146,6 @@ export default new Transformer({
 });
 ```
 
-## Automatically collected logs and errors
+## Автоматически собираемые логи и ошибки
 
-Parcel core automatically collects any logs created by calling the global variable `console`, this means whenever you do a `console.log` we internally catch this and convert it to a Diagnostic object. This is not recommended as we do not have as much information as we do when calling the logger instance directly. We also do the same for errors, whenever you throw an error we convert it into a Diagnostic, append information about the plugin to it and send it to the logger.
+Ядро Parcel автоматически собирает все журналы, созданные вызовом глобальной переменной `console`.Это означает, что всякий раз, когда вы создаете `console.log`, мы внутренне перехватываем его и конвертируем в объект диагностики. Это не рекомендуется, поскольку у нас не так много информации, как при прямом вызове экземпляра регистратора. Мы также делаем то же самое для ошибок: всякий раз, когда вы выдаете ошибку, мы конвертируем ее в диагностику, добавляем к ней информацию о плагине и отправляем ее регистратору.

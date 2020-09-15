@@ -4,10 +4,10 @@ eleventyNavigation:
   key: plugin-system-namer
   title: Namer
   order: 6
-summary: "A plugin type: Generates an output-filepath for a bundle"
+summary: "Тип плагина: создает путь к выходному файлу для пакета."
 ---
 
-Namers accept a bundle and output a filepath for that bundle (the resulting path should be relative to `rootDir`).
+Именовщики принимают пакет и выводят путь к файлу для этого пакета (результирующий путь должен быть относительно `rootDir`).
 
 ```js
 import { Namer } from "@parcel/plugin";
@@ -15,7 +15,7 @@ import { Namer } from "@parcel/plugin";
 export default new Namer({
   async name({ bundle, bundleGraph, logger, options }) {
     if (bundle.filePath != null) {
-      // a target specified a output path
+      // цель указала выходной путь
       return bundle.filePath;
     }
 
@@ -29,28 +29,28 @@ export default new Namer({
 ```
 
 {% error %}
-You have to ensure that the bundle filepaths are unique.
+Вы должны убедиться, что пути к файлам пакета уникальны.
 {% enderror %}
 
-Namers have complete freedom over the filepaths, but they should still follow these rules:
+У именовщиков есть полная свобода выбора путей к файлам, но они все равно должны следовать этим правилам:
 
-- Return `bundle.filePath` if it's set, to make sure that the output file set in `package.json#targets` is respected.
-- If `bundle.isEntry` is true, don't include [the hash in the filename](#Including-a-hash).
+- Верните `bundle.filePath`, если он установлен, чтобы убедиться, что выходной файл, установленный в `package.json#target`, соблюдается.
+- Если `bundle.isEntry` истинно, не включайте [хэш в имя файла](#Including-a-hash).
 
-## Overriding names for specific bundles
+## Переопределение имен для определенных пакетов
 
-The [`.parcelrc`](/configuration/plugin-configuration/) file allows multiple namers to be specified. If some namer plugin returns `null`, the next namer in the list is queried (and so on).
+В файле [`.parcelrc`](/configuration/plugin-configuration/) можно указать несколько именователей. Если какой-либо плагин `namer` возвращает `null`, запрашивается следующий namer в списке (и так далее).
 
-This makes it easy to override the filename for a specific bundle without having the copy the existing (general) namer.
+Это упрощает переопределение имени файла для определенного пакета без копирования существующего (общего) namer.
 
-## Including a hash
+## Включая хеш
 
-If you want to include a hash in the filename that is based on the final bundle contents, insert `bundle.hashReference`. This is an opaque value that will later on be replaced with the actual hash (since at this stage, there is no bundle content to generate the hash of).
+Если вы хотите включить в имя файла хэш, основанный на конечном содержимом пакета, вставьте `bundle.hashReference`. Это непрозрачное значение, которое позже будет заменено фактическим хешем (поскольку на этом этапе нет содержимого пакета для генерации хеша).
 
 {% warning %}
-At least in the default namer, hashes also ensure that bundlenames/paths are unique (especially for shared bundles).
+По крайней мере, в именователе по умолчанию хеши также гарантируют, что имена/пути пакетов уникальны (особенно для общих пакетов).
 {% endwarning %}
 
-## Relevant API
+## Соответствующий API
 
 {% include "../../api/namer.html" %}

@@ -4,10 +4,10 @@ eleventyNavigation:
   key: plugin-system-optimizer
   title: Optimizer
   order: 9
-summary: "A plugin type: Apply modifications to the finished bundle"
+summary: "Тип плагина: внесите изменения в готовый комплект"
 ---
 
-Optimizers are similar to transformers, but they accept a bundle instead of a single asset. At this stage, any ASTs have already been serialized.
+Оптимизаторы похожи на преобразователи, но они принимают пакет вместо одного ресурса. На этом этапе все AST уже сериализованы.
 
 ```js
 import { Optimizer } from "@parcel/plugin";
@@ -20,6 +20,6 @@ export default new Optimizer({
 });
 ```
 
-## Relevant API
+## Соответствующий API
 
 {% include "../../api/optimizer.html" %}
