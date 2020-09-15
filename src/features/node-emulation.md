@@ -4,16 +4,16 @@ eleventyNavigation:
   key: features-node-emulation
   title: 🐢 Node Emulation
   order: 6
-summary: Some features that ultimately emulate Node.js's API
+summary: Некоторые функции, которые в конечном итоге имитируют Node.js's API
 ---
 
-## 🌳 Environment Variables
+## 🌳 Переменные среды
 
-Parcel uses [dotenv](https://github.com/motdotla/dotenv) to support loading environment variables from `.env` files.
+Parcel использует [dotenv](https://github.com/motdotla/dotenv) для поддержки загрузки переменных среды из файлов `.env`.
 
-`.env` files are to be stored alongside the `package.json` that contains your `parcel-bundler` dependency.
+`.env` файлы должны храниться вместе с файлом `package.json`, который содержит вашу зависимость `parcel-bundler`.
 
-Parcel loads `.env` files with these specific names for the following `NODE_ENV` values:
+Parcel загружает файлы `.env` с этими именами для следующих значений `NODE_ENV`:
 
 | valid `.env` filenames   | `NODE_ENV=*` | `NODE_ENV=test` |
 | ------------------------ | ------------ | --------------- |
@@ -22,17 +22,17 @@ Parcel loads `.env` files with these specific names for the following `NODE_ENV`
 | `.env.${NODE_ENV}`       | ✔️           | ✔️              |
 | `.env.${NODE_ENV}.local` | ✔️           | ✔️              |
 
-Notably:
+В частности:
 
-- `NODE_ENV` defaults to `development`.
-- `.env.local` is not loaded when `NODE_ENV=test` since [tests should produce the same results for everyone](https://github.com/parcel-bundler/parcel/blob/28df546a2249b6aac1e529dd629f506ba6b0a4bb/src/utils/env.js#L9)
-- Sometimes introducing a new .env file will not work immediately. Try deleting the .cache/ directory in this case.
-- Accessing the `process.env` object directly is [not supported](https://github.com/parcel-bundler/parcel/issues/2299#issuecomment-439768971), but accessing specific variables on it like `process.env.API_KEY` will provide the expected value.
-- Use the built-in `process` Node.js global, i.e. don't do `import process from "process"`. If you use TypeScript, you probably want to install `@types/node` for it to compile.
+- `NODE_ENV` по умолчанию `development`.
+- `.env.local` не загружается, когда `NODE_ENV=test` поскольку [тесты должны давать одинаковые результаты для всех](https://github.com/parcel-bundler/parcel/blob/28df546a2249b6aac1e529dd629f506ba6b0a4bb/src/utils/env.js#L9)
+- Иногда введение нового файла .env не срабатывает сразу. В этом случае попробуйте удалить каталог .cache/.
+- Доступ напрямую к объекту `process.env` [не поддерживается] (https://github.com/parcel-bundler/parcel/issues/2299#issuecomment-439768971), но доступ к конкретным переменным на нем, например, `process.env.API_KEY` предоставит ожидаемое значение.
+- Используйте встроенный в Node.js глобальный `process`, т.е. не `import process from "process"`. Если вы используете TypeScript, вы, вероятно, захотите установить `@types/node` для его компиляции.
 
-## 🕳️ Polyfilling & Excluding Builtin Node Modules
+## 🕳️ Полифиллинг и исключение встроенного Node Modules
 
-When (or more likely a dependency) importing packages such as `crypto`, `fs` or `process`, Parcel will either automatically use one of the listed polyfills and otherwise exclude that module. You can use [the `aliases` field in your `package.json`](/features/module-resolution/#aliases)
+Когда (или, что более вероятно, зависимость) импортируют пакеты, такие как `crypto`,` fs` или `process`, Parcel либо автоматически использует один из перечисленных полифиллов, либо исключает этот модуль. Ты можешь использовать [поле `aliases`  в своём `package.json`](/features/module-resolution/#aliases)
 
 | native module | npm replacement            | native module  | npm replacement      |
 | ------------- | -------------------------- | -------------- | -------------------- |

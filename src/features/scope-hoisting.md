@@ -4,26 +4,26 @@ eleventyNavigation:
   key: features-scope-hoisting
   title: 🌳 Scope Hoisting
   order: 9
-summary: What scope hoisting is and how it enables smaller builds and ESM output
+summary: Что такое подъем осциллографа и как он позволяет создавать небольшие сборки и выводить ESM
 ---
 
-## Tips for smaller/faster builds
+## Советы для небольших/более быстрых сборок
 
-### Wrapped Assets
+### Обернутые активы
 
-There are a few cases where an asset needs to be _wrapped_, that is moved inside a function. This negates the advantages of scope-hoisting because moving the exports into the top-level was our original objective.
+Есть несколько случаев, когда ресурс необходимо _упаковывать_, перемещая его внутрь функции. Это сводит на нет преимущества увеличения объема, поскольку нашей первоначальной целью было перемещение экспорта на верхний уровень.
 
-- If a top-level `return` statement or `eval` are being used or a `module` variable is used freely (`module.exports` is fine), we cannot add it into the top-level scope (because `return` would stop the execution of the whole bundle and `eval` might use variables that have been renamed).
+- Если используется оператор верхнего уровня `return` или` eval`, или переменная `module` используется свободно (`module.exports` вполне подойдет), мы не можем добавить ее в область видимости верхнего уровня (потому что `return` остановит выполнение всего пакета, а `eval` может использовать переменные, которые были переименованы).
 
-- If an asset is imported conditionally (or generally in a try/catch, a function an if statement) using CommonJS `require`, this isn't possible with the ESM syntax), we cannot add it into the top-level scope because its content should only be execute when it is actually required.
+- Если актив импортируется условно (или, как правило, в try/catch, функция и оператор if) с использованием CommonJS `require`, это невозможно с синтаксисом ESM), мы не можем добавить его в область верхнего уровня, потому что это контент должен выполняться только тогда, когда он действительно требуется.
 
 ### `sideEffects: false`
 
-When `sideEffects: false` is specified in the `package.json`, Parcel can skip processing some assets entirely (e.g. not transpiling the `lodash` function that weren't imported) or not include them in the output bundle at all (e.g. because that asset merely does reexporting).
+Когда в `package.json` указано `sideEffects: false`, Parcel может полностью пропустить обработку некоторых ресурсов (например, не переносить функцию `lodash`, которая не была импортирована) или вообще не включать их в выходной пакет (например, потому что этот актив просто реэкспорт).
 
-## Motivation and Advantages of Scope Hoisting
+## Мотивация и преимущества из Scope Hoisting
 
-For a long time, many bundlers (like Webpack and Browserify, but not Rollup) achieved the actual bundling by wrapping all assets in a function, creating a map of all included assets and providing a CommonJS runtime. A (very) simplified example of that:
+В течение долгого времени многие сборщики (например, Webpack и Browserify, но не Rollup) добивались фактического объединения, объединяя все ресурсы в функцию, создавая карту всех включенных ресурсов и предоставляя среду выполнения CommonJS. (Очень) упрощенный пример этого:
 
 ```js
 (function (modulesMap, entry) {
@@ -52,23 +52,23 @@ For a long time, many bundlers (like Webpack and Browserify, but not Rollup) ach
 );
 ```
 
-This mechanism has both advantages and disadvantages:
+У этого механизма есть как достоинства, так и недостатки:
 
 <ul style="list-style: none;">
   <li>
-    + The bundle can be generate very quickly, the asset's sources is simply copied into a string.
+    + Пакет можно сгенерировать очень быстро, источники актива просто копируются в строку.
   </li>
   <li>
-    – It is hard to optimize because the <code>require</code> function makes it hard to statically analyze which exports are used (think of <code>lodash</code>) and whether a asset that only does reexports could be removed entirely.
+    – Трудно оптимизировать, потому что функция <code>require</code> затрудняет статический анализ того, какие экспорты используются (подумайте о <code>lodash</code>) и можно ли полностью удалить ресурс, который только реэкспортирует .
   </li>
   <li>
-    – To generate a bundle that does ESM exports, the <code>export</code> declarations cannot be inside of functions.
+    – Для создания пакета, который выполняет экспорт ESM, объявления <code>export</code> не могут находиться внутри функций.
   </li>
 </ul>
 
-## Solution
+## Решение
 
-Instead we take the individual assets and concatenate them directly in the top-level scope:
+Вместо этого мы берем отдельные активы и объединяем их непосредственно в области верхнего уровня:
 
 ```js
 // thing.js
@@ -88,19 +88,19 @@ var $index$export$var$obj = new $thing$export$Foo();
 $index$export$var$obj.run();
 ```
 
-As you can see, the top-level variables from the assets need to be renamed to have a globally unique name.
+Как видите, переменные верхнего уровня из ресурсов необходимо переименовать, чтобы они имели глобально уникальное имя.
 
-Now, removing unused exports has become trivial: the variable `$thing$export$Bar` is not used at all, so we can safely remove it (and a minifier like Terser would do this automatically), this step is sometimes referred to as **tree shaking**.
+Теперь удаление неиспользуемых экспортов стало тривиальным: переменная `$thing$export$Bar` вообще не используется, поэтому мы можем безопасно удалить ее (а минификатор, такой как Terser, сделает это автоматически), этот шаг иногда называют **дерево трясется**.
 
-The only real downside is that builds take quite a bit longer and also use more memory than the wrapper-based approach (because every single statement needs to be modified and the bundle as a whole needs to remain in memory during the packaging).
+Единственным реальным недостатком является то, что сборки занимают немного больше времени, а также используют больше памяти, чем подход на основе оболочки (потому что каждый отдельный оператор должен быть изменен, а пакет в целом должен оставаться в памяти во время упаковки).
 
 <!--
 
-## How It Really Works
+## Как это работает
 
 {% note %}
 
-This is a rather in-depth description of the Parcel's scope hoisting implementation and not required reading for using Parcel.
+Это довольно подробное описание реализации подъема области действия Parcel, которое не требуется для чтения при использовании Parcel.
 
 {% endnote %}
 
@@ -114,7 +114,7 @@ var $id$exports$ = function () {
 ```
 
 ```js
-// ...variable declarations from the original asset
+// ...объявления переменных из исходного актива
 var $thing$export$Foo;
 function $id$exec() {
   $id$exports = {};
@@ -123,7 +123,7 @@ function $id$exec() {
       console.log("Hello!");
     }
   };
-  // ...the original asset's content
+  // ...содержание исходного актива
 }
 
 function $id$init() {

@@ -4,10 +4,10 @@ eleventyNavigation:
   key: features-parcel-api
   title: 📚 Parcel API
   order: 7
-summary: How to use @parcel/core programatically
+summary: Как программно использовать @parcel/core
 ---
 
-### A minimal example (or "What the `parcel` CLI does")
+### Минимальный пример (или "Что делает CLI `parcel`")
 
 {% sample %}
 {% samplefile %}
@@ -37,7 +37,7 @@ import Parcel from "@parcel/core";
 {% endsamplefile %}
 {% endsample %}
 
-### Outputting to an in-memory file system
+### Вывод в файловую систему в памяти
 
 {% sample %}
 {% samplefile %}

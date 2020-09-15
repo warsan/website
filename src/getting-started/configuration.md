@@ -4,44 +4,44 @@ eleventyNavigation:
   key: getting-started-no-configuration
   title: 🗒️ (No) configuration
   order: 3
-summary: How far you can get without any configuration and how to configure Parcel
+summary: Как далеко вы можете пройти без какой-либо конфигурации и как настроить Parcel
 ---
 
-(The meaning of `~` in this section is described in [Module Resolution](/features/module-resolution/#tilde-paths).)
+(Значение символа `~` в этом разделе описано в [Module Resolution](/features/module-resolution/#tilde-paths).)
 
-### Targets
+### Цели
 
-When Parcel runs, it can build your files in multiple different ways simultaneously. These are called "targets".
+Когда Parcel запускается, он может одновременно создавать файлы несколькими способами. Их называют «мишенями» (targets).
 
-For example, you could have a "modern" target that targets newer browsers and a "legacy" target for older browsers.
+Например, у вас может быть «современная» цель, нацеленная на новые браузеры, и «устаревшая» цель для старых браузеров.
 
-Every entrypoint will be processed (and outputted) once per target.
+Каждая точка входа будет обработана (и выведена) один раз для каждой цели.
 
-### Specifying Entrypoints
+### Указание точек входа
 
-These are the files that contain the source code to your app before being
-compiled by Parcel and are picked up by:
+Это файлы, которые содержат исходный код вашего приложения до того, как
+составляется Parcel и забирает их:
 
 1. [`$ parcel <entries>`](/features/cli/)
 2. `$ parcel <folder(s)>` uses [`<folder>/package.json#source`](/configuration/package-json/#source) (respectively)
 3. `./src/index.*`
 4. `./index.*`
 
-From there, everything those assets depend on will be considered a "source" in
-Parcel.
+Отсюда все, от чего зависят эти активы, будет считаться "источником" для
+Пакета.
 
-### Setting the output path
+### Установка пути вывода
 
-The path where the output bundles should be placed can be specified (in that order) using a top-level field in `package.json` (see [common targets](/configuration/package-json/#main-%2F-module-%2F-browser) and [custom targets](/configuration/package-json/#custom-targets)), using [`targets.*.distDir`](/configuration/package-json/#targets) or the [`--dist-dir`](</features/cli/#parameters-specific-to-the-non-server-commands-(watch-and-build)>) CLI parameter.
+Путь, по которому должны быть размещены выходные пакеты, можно указать (в этом порядке), используя поле верхнего уровня в `package.json` (см. [common targets](/configuration/package-json/#main-%2F-module-%2F-browser) и [custom targets](/configuration/package-json/#custom-targets)), с помощью [`targets.*.distDir`](/configuration/package-json/#targets) или [`--dist-dir`](</features/cli/#parameters-specific-to-the-non-server-commands-(watch-and-build)>) CLI параметр.
 
-Default values for the output folder
+Значения по умолчанию для выходной папки
 
-- for the common targets is `path.dirname(package.json#${targetName})`
-- for custom targets is `path.dirname(package.json#${targetName})` or `~/dist/${targetName}/`.
+- для общих целей `path.dirname(package.json#${targetName})`
+- для настраиваемых целей `path.dirname(package.json#${targetName})` или `~/dist/${targetName}/`.
 
-The implicit default target has the output folder `~/dist/`.
+Неявная цель по умолчанию имеет выходную папку `~/dist/`.
 
-With multiple entrypoints, you should use an explicit `distDir` as oppsed to the top-levle target fields because Parcel wouldn't know which bundle should have the specified name:
+С несколькими точками входа вы должны использовать явный `distDir` вместо целевых полей верхнего уровня, потому что Parcel не будет знать, какой пакет должен иметь указанное имя:
 
 {% sample "a.html b.html" %}
 {% samplefile "package.json" %}
@@ -59,23 +59,23 @@ With multiple entrypoints, you should use an explicit `distDir` as oppsed to the
 {% endsamplefile %}
 {% endsample %}
 
-### Environments
+### Среды
 
-Environments tell Parcel how to transform and bundle each asset. They tell
-Parcel if an asset is going to be run in a browser or in Node/Electron.
+Среды сообщают Parcel, как преобразовать и связать каждый актив. Они говорят
+Parcel, где актив будет запускаться, в браузере или в Node/Electron.
 
-They also tell Parcel's plugins what their output should be by specifying which
-browsers (-versions) your build is targeting
-(e.g. [Babel](http://babeljs.io/docs/en/babel-preset-env#targetsbrowsers) or
+Они также сообщают плагинам Parcel, каким должен быть их вывод, указывая, на какие
+браузеры (версии), ориентирована ваша сборка
+(например [Babel](http://babeljs.io/docs/en/babel-preset-env#targetsbrowsers) или
 [Autoprefixer](https://github.com/postcss/autoprefixer#browsers)).
 
-You can configure environments through [`targets#context` and `targets#engines`](/configuration/package-json/#targets) and [`engines / browserslist`](/configuration/package-json/#engines-%2F-browserslist).
+Вы можете настроить среды через [`targets#context` and `targets#engines`](/configuration/package-json/#targets) и [`engines / browserslist`](/configuration/package-json/#engines-%2F-browserslist).
 
-### Configuring Parcel
+### Настройка Parcel
 
-When you do need to configure Parcel, it will be in one of 3 places.
+Когда вам действительно нужно настроить Parcel, это будет в одном из трех мест.
 
-- If you need to configure the CLI, it will be a [CLI flag](/features/cli/)
-- If you need to configure your package, it will be in the [`package.json`](/configuration/package-json/)
-- If you need to configure something with your files or the Parcel asset
-  pipeline, it will be in [`.parcelrc`](/configuration/plugin-configuration/)
+- Если вам нужно настроить CLI, это будет [CLI flag](/features/cli/)
+- Если вам нужно настроить свой пакет, он будет в [`package.json`](/configuration/package-json/)
+- Если вам нужно что-то настроить с вашими файлами или активом Parcel
+  трубопровод, он будет в [`.parcelrc`](/configuration/plugin-configuration/)

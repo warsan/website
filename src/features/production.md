@@ -4,41 +4,41 @@ eleventyNavigation:
   key: features-production
   title: 🏭 Production
   order: 8
-summary: How Parcel helps you optimizing your project for production
+summary: Как Parcel помогает вам оптимизировать ваш проект для производства
 ---
 
 TODO
 
-## Inspecting bundle size
+## Проверка размера пакета
 
-Parcel has builtin plugins for a few tools to help with analyzing bundle size.
+Parcel имеет встроенные плагины для нескольких инструментов, помогающих анализировать размер пакета.
 
-### Bundle Analyzer
+### Пакетный анализатор
 
-To generate a HTML file for every bundle, set the `PARCEL_BUNDLE_ANALYZER` environment variable.
+Чтобы сгенерировать HTML-файл для каждого пакета, установите переменную среды `PARCEL_BUNDLE_ANALYZER`.
 
 {% sample "PARCEL_BUNDLE_ANALYZER=1 parcel build src/index.html" %}
 {% endsample %}
 
-This generates a folder `parcel-bundle-reports` in your project root with an HTML file for every target:
+Это создает папку parcel-bundle-reports в корне вашего проекта с файлом HTML для каждой цели:
 
 <div style="border: 1px solid black">
 
-![A screenshot of the bundle analyzer output](/assets/bundle-analyzer.png)
+![Скриншот вывода анализатора пакетов](/assets/bundle-analyzer.png)
 
 </div>
 
-### Bundle Buddy
+### Связка друзей
 
-Set the `BUNDLE_BUDDY` environment variable
+Установите переменную окружения `BUNDLE_BUDDY`
 
 {% sample "BUNDLE_BUDDY=1 parcel build src/index.html" %}
 {% endsample %}
 
-and use the files (in the dist directory) on [the Bundle Buddy website](https://bundle-buddy.com/parcel).
+и используйте файлы (в каталоге dist) на [веб-сайте Bundle Buddy](https://bundle-buddy.com/parcel).
 
 <div style="border: 1px solid black">
 
-![A screenshot of the Bundle Buddy website with a loaded project](/assets/bundle-buddy.png)
+![Скриншот сайта Bundle Buddy с загруженным проектом](/assets/bundle-buddy.png)
 
 </div>
