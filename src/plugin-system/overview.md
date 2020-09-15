@@ -4,7 +4,7 @@ eleventyNavigation:
   key: plugin-system-overview
   title: Overview
   order: 1
-summary: A high-level overview over the plugin system
+summary: Общий обзор системы плагинов
 ---
 
 <figure>
@@ -13,19 +13,19 @@ summary: A high-level overview over the plugin system
   </div>
   <figcaption style="text-align: center;">
 
-_Scroll to the right to see more_
+_Прокрутите вправо, чтобы увидеть больше_
 
   </figcaption>
 </figure>
 
-## Parcel Architecture
+## Архитектура участка
 
-Even if you aren't doing anything that complex, if you are going to use Parcel
-a lot it makes sense to take some time and understand how it works.
+Даже если вы не делаете ничего такого сложного, если вы собираетесь использовать Parcel
+много имеет смысл потратить некоторое время и понять, как это работает.
 
-### Phases of Parcel
+### Фазы посылки
 
-At a high level Parcel runs through several phases:
+На высоком уровне Parcel проходит несколько этапов:
 
 - Resolving
 - Transforming
@@ -34,58 +34,58 @@ At a high level Parcel runs through several phases:
 - Optimizing
 - (Validating)
 
-The **resolving** and **transforming** phases work together in parallel to
-build a graph of all your assets.
+Фазы **разрешения** и **преобразования** работают вместе параллельно
+построить график всех ваших активов.
 
-This asset graph gets translated into bundles in the **bundling** phase.
+Этот график ресурсов преобразуется в пакеты на этапе **объединения**.
 
-Then the **packaging** phase takes the assets in the calculated bundles and
-merges them together into files each containing an entire bundle.
+Затем этап **упаковки** берет активы в рассчитанных пакетах и
+объединяет их в файлы, каждый из которых содержит целый пакет.
 
-Finally, in the **optimizing** phase, Parcel takes these bundles files and runs
-them through optimizing transforms.
+Наконец, на этапе **оптимизации** Parcel берет эти файлы пакетов и запускает
+их посредством оптимизации преобразований.
 
-### Asset Graph
+### График активов
 
-During the resolving and transforming phases, Parcel discovers all the assets
-in your app or program. Every asset can have its own dependencies on other
-assets which Parcel will pull in.
+На этапах разрешения и преобразования Parcel обнаруживает все активы
+в вашем приложении или программе. Каждый актив может иметь свои собственные зависимости от других
+активов, которые Parcel получит.
 
-The data structure that represents all of these assets and their dependencies
-on one another is called the "Asset Graph".
+Структура данных, представляющая все эти активы и их зависимости
+одна на другой называется «График активов».
 
-### Bundle Graph
+### Пакетный график
 
-Once Parcel has built the entire Asset Graph, it begins turning it into
-"bundles". These bundles are groupings of assets that get placed together in a
-single file. Bundles will (generally) contain only assets in the same language.
+После того, как Parcel построит весь Asset Graph, он начинает превращать его в
+"связки". Эти пакеты представляют собой группы активов, которые помещаются вместе в
+отдельный файл. Пакеты (как правило) содержат только ресурсы на одном языке.
 
-Some assets are considered "entry" points into your app, and will stay as
-separate bundles. For example, if your `index.html` file links to an
-`about.html` file, they won't be merged together.
+Некоторые ресурсы считаются "точками входа" в ваше приложение и останутся
+отдельные пачки. Например, если ваш файл `index.html` ссылается на
+Файл `about.html`, они не будут объединены.
 
-### Complete List of Plugin Types (in a somewhat correct order)
+### Полный список типов плагинов (в несколько правильном порядке)
 
-- [Transformer](/plugin-system/transformer): Converts an asset (into another asset) <br>
-  _Example: convert Typescript to Javascript (per file)_
-- [Resolver](/plugin-system/resolver): Turns dependency requests into absolute paths (or exclude them) <br>
-  _Example: add your own syntax for imports, e.g. `import "^/foo"`_
-- [Bundler](/plugin-system/bundler): Turns an asset graph into a bundle graph <br>
-  _Example: create a bundler that does Vendoring (splitting app and node_modules code)_
-- [Namer](/plugin-system/namer): Generates a filename (or filepath) for a bundle <br>
-  _Example: create a bundler that does Vendoring (splitting app and node_modules code)_
-- [Runtime](/plugin-system/runtime): Programatically inserts (synthetic) assets into bundles" <br>
-  _Example: add analytics to every bundle_
-- [Packager](/plugin-system/packager): Turns a group of assets (bundle) into a bundle file" <br>
-  _Example: concatenate all input CSS files into a CSS bundle_
-- [Optimizer](/plugin-system/optimizer): Applies modifications to the finished bundle (similar to a transformer) <br>
-  _Example: run a minifier or convert into a data-url for inline usage_
+- [Transformer](/plugin-system/transformer): Преобразует актив (в другой актив) <br>
+  _Пример: преобразовать Typescript в Javascript (для каждого файла)_
+- [Resolver](/plugin-system/resolver): Превращает запросы зависимости в абсолютные пути (или исключает их) <br>
+  _Пример: добавьте свой собственный синтаксис для импорта, например `import "^/foo"`_
+- [Bundler](/plugin-system/bundler): Превращает диаграмму активов в диаграмму пакета <br>
+  _Пример: создать сборщик, который выполняет торговлю (разделение кода приложения `node_modules`)_
+- [Namer](/plugin-system/namer): Создает имя файла (или путь к файлу) для пакета <br>
+  _Пример: создание сборщика, который выполняет торговлю (разделение кода приложения `node_modules`)_
+- [Runtime](/plugin-system/runtime): Программно вставляет (синтетические) ресурсы в пакеты" <br>
+  _Пример: добавить аналитику в каждый пакет_
+- [Packager](/plugin-system/packager): Превращает группу ресурсов (пакет) в файл пакета" <br>
+  _Пример: объединить все входные файлы CSS в пакет CSS_
+- [Optimizer](/plugin-system/optimizer): Применяет доработки к готовой связке (аналог трансформера) <br>
+  _Пример: запустить минификатор или преобразовать в URL-адрес данных для встроенного использования_
 
-<p></p> <!-- Force two lists -->
+<p></p> <!-- Форсировать два списка -->
 
-- [Validator](/plugin-system/validator): Analyzes assets and emit warnings and errors <br>
-  _Example: do type-checking (Typescript, Flow)_
-- [Config](/plugin-system/configuration): A reuseable '.parcelrc' package <br>
-  _Example: provide a tailor-made parcel config for your boilerplate_ <br>
-- [Reporter](/plugin-system/reporter): Listens to events of the build <br>
-  _Example: generate a bundle report, run a dev server_
+- [Validator](/plugin-system/validator): Анализирует активы и выдает предупреждения и ошибки <br>
+  _Пример: проверка типов (Typescript, Flow)_
+- [Config](/plugin-system/configuration): Повторно используемый пакет `.parcelrc` <br>
+  _Пример: предоставьте индивидуальную конфигурацию посылки для вашего шаблона_ <br>
+- [Reporter](/plugin-system/reporter): Слушает события сборки <br>
+  _Пример: создать пакетный отчет, запустить сервер разработки_
