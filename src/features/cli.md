@@ -60,58 +60,58 @@ parcel index.html
 
 ### `parcel build <entries>`
 
-Builds the assets once, it also enabled minification and sets the NODE_ENV=production environment variable. See Production for more details.
+Создает ресурсы один раз, а также включает минификацию и устанавливает переменную среды NODE_ENV=production environment variable. Смотрите Производство для более подробной информации.
 
 ```bash
 parcel build index.html
 ```
 
-As opposed to `serve` and `watch`, `build` has [scope hoisting](/features/scope-hoisting) enabled by default (so the other commmands implicity specify `--no-scope-hoist`).
+В отличие от `serve` и` watch`, `build` имеет [scope hoisting](/features/scope-hoisting) включенным по умолчанию (так что неявность других команд указывает `--no-scope-hoist`).
 
-## Parameters
+## Параметры
 
-### General parameters
+### Общие параметры
 
 | Format                                       | Description                                                                                                             |
 | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `--cache-dir <path>`                         | Sets the cache directory. defaults to `.parcel-cache`                                                                   |
-| `--log-level (none|error|warn|info|verbose)` | Sets the log level                                                                                                      |
-| `--no-autoinstall`                           | Disables autoinstall                                                                                                    |
-| `--no-cache`                                 | Disables reading from the filesystem cache                                                                              |
-| `--no-source-maps`                           | Disables sourcemaps, <br> Overrides [`targets.*.sourceMap`](/configuration/package-json/#sourcemap)                     |
-| `--profile`                                  | Profiles the build (a flamechart can be generated)                                                                      |
-| `--public-url <url>`                         | The path prefix for absolute urls. <br> Default value for [`targets.*.publicUrl`](/configuration/package-json/#targets) |
-| `--target [name]`                            | Only build the specified target(s)                                                                                      |
-| `-V, --version`                              | Outputs the version number                                                                                              |
+| `--cache-dir <path>`                         | Устанавливает каталог кеша. по умолчанию `.parcel-cache`                                                                   |
+| `--log-level (none|error|warn|info|verbose)` | Устанавливает уровень журнала                                                                                                      |
+| `--no-autoinstall`                           | Отключает автоустановку                                                                                                    |
+| `--no-cache`                                 | Отключает чтение из кеша файловой системы                                                                              |
+| `--no-source-maps`                           | Отключает исходные карты, <br> переопределяет [`targets.*.sourceMap`](/configuration/package-json/#sourcemap)                     |
+| `--profile`                                  | Профилирует сборку (может быть создана диаграмма пламени)                                                                      |
+| `--public-url <url>`                         | Префикс пути для абсолютных URL-адресов. <br> Значение по умолчанию для [`targets.*.publicUrl`](/configuration/package-json/#targets) |
+| `--target [name]`                            | Создаёт только указанные цели                                                                                      |
+| `-V, --version`                              | Выводит номер версии                                                                                              |
 
-### Parameters related to the dev server/watch mode (`serve` and `watch`)
+### Параметры, относящиеся к режиму dev server/watch (`serve` и `watch`)
 
 | Format              | Description                                                                           |
 | ------------------- | ------------------------------------------------------------------------------------- |
-| `--no-hmr`          | Disables [hot module replacement](/features/hmr)                                      |
-| `-p, --port <port>` | The port for the HMR and HTTP server (the default port is `process.env.PORT` or 1234) |
-| `--host <host>`     | Sets the host to listen on, defaults to listening on all interfaces                   |
-| `--https`           | Serves files over HTTPS                                                               |
-| `--cert <path>`     | Path to a certificate to use with HTTPS                                               |
-| `--key <path>`      | Path to a private key to use with HTTPS                                               |
-| `--watch-for-stdin` | Stop Parcel once stdin is closed                                                      |
+| `--no-hmr`          | Отключает [hot module replacement](/features/hmr)                                      |
+| `-p, --port <port>` | Порт для HMR и HTTP-сервера (порт по умолчанию `process.env.PORT` или 1234) |
+| `--host <host>`     | Устанавливает хост для прослушивания, по умолчанию прослушивает все интерфейсы                   |
+| `--https`           | Обслуживает файлы по HTTPS                                                               |
+| `--cert <path>`     | Путь к сертификату для использования с HTTPS                                               |
+| `--key <path>`      | Путь к закрытому ключу для использования с HTTPS                                               |
+| `--watch-for-stdin` | Остановить посылку после закрытия стандартного ввода                                                      |
 
-### Parameters specific to `serve`
+### Параметры, относящиеся к `serve`
 
 | Format             | Description                                                                    |
 | ------------------ | ------------------------------------------------------------------------------ |
-| `--open [browser]` | Automatically opens the entry in your browser, defaults to the default browser |
+| `--open [browser]` | Автоматически открывает запись в вашем браузере, по умолчанию используется браузер по умолчанию |
 
-### Parameters specific to the non-server commands (`watch` and `build`)
+### Параметры, относящиеся к несерверным командам (`watch` и `build`)
 
 | Format             | Description                                                                                                                                  |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--dist-dir <dir>` | Output directory to write to when unspecified by targets. <br> Default value for [`targets.*.distDir`](/configuration/package-json/#targets) |
+| `--dist-dir <dir>` | Выходной каталог для записи, если он не указан целями. <br> Значение по умолчанию для [`targets.*.distDir`](/configuration/package-json/#targets) |
 
-### Parameters specific to `build`
+### Параметры, относящиеся к `build`
 
 | Format                      | Description                                                                                                                               |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `--no-minify`               | Disables minification (exact behaviour is determined by plugins). <br> Related [`targets.*.minify`](/configuration/package-json/#targets) |
-| `--no-scope-hoist`          | Disables scope hoisting. <br> Related: [`targets.*.scopeHoist`](/configuration/package-json/#targets)                                     |
-| `--detailed-report [depth]` | Displays the largest 10 (number configurable with `depth`) assets per bundle in the CLI report                                            |
+| `--no-minify`               | Отключает минификацию (точное поведение определяется плагинами). <br> Связанные [`targets.*.minify`](/configuration/package-json/#targets) |
+| `--no-scope-hoist`          | Отключает подъем прицела. <br> Связанные: [`targets.*.scopeHoist`](/configuration/package-json/#targets)                                     |
+| `--detailed-report [depth]` | Отображает 10 крупнейших (число, настраиваемое с помощью `depth`) активов на пакет в отчете CLI.                                           |

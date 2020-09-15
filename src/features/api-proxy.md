@@ -4,14 +4,14 @@ eleventyNavigation:
   key: features-api-proxy
   title: 🚇 API Proxy
   order: 1
-summary: Configuration the builtin dev server to forward specific paths to another server
+summary: Настройте встроенный сервер разработки для пересылки определенных путей на другой сервер
 ---
 
-To better emulate the actual production environment when developing web apps, you can specify paths that should be proxied to another server (e.g. your real API server or a local testing server) in a `.proxyrc` or `.proxyrc.js` file.
+Чтобы лучше эмулировать реальную производственную среду при разработке веб-приложений, вы можете указать пути, которые должны быть проксированы на другой сервер (например, ваш реальный сервер API или локальный сервер тестирования) в файле `.proxyrc` или `.proxyrc.js`.
 
 ### `.proxyrc`
 
-In this JSON file, you specify an object where every key is a pattern against which the URL is matched and the value is a [`http-proxy-middleware` options](https://github.com/chimurai/http-proxy-middleware#options) object:
+В этом файле JSON вы указываете объект, где каждый ключ является шаблоном, с которым сопоставляется URL-адрес, а значение - [`http-proxy-middleware` options](https://github.com/chimurai/http-proxy-middleware#options) объект:
 
 {% sample %}
 {% samplefile ".proxyrc.js" %}
@@ -31,11 +31,11 @@ In this JSON file, you specify an object where every key is a pattern against wh
 {% endsamplefile %}
 {% endsample %}
 
-This would cause `http://localhost:1234/api/endpoint` to be proxied to `http://localhost:8000/endpoint`.
+Это приведет к тому, что http://localhost:1234/api/endpoint будет проксироваться на `http://localhost:8000/endpoint`.
 
 ### `.proxyrc.js`
 
-For more complex configurations, a `.proxyrc.js` file allows you to attach any (connect-compatible) middleware, this example has the same behaviour as the `.proxyrc` version above.
+Для более сложных конфигураций файл `.proxyrc.js` позволяет вам подключать любое (совместимое с подключением) промежуточное ПО, этот пример имеет то же поведение, что и версия `.proxyrc` выше.
 
 {% sample %}
 {% samplefile ".proxyrc.js" %}
@@ -58,4 +58,4 @@ module.exports = function (app) {
 {% endsamplefile %}
 {% endsample %}
 
-(This functionality is provided by `@parcel/reporter-dev-server`.)
+(Эта функциональность предоставляется `@parcel/reporter-dev-server`.)
