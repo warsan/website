@@ -4,23 +4,25 @@ eleventyNavigation:
   key: features-code-splitting
   title: ✂️ Code Splitting
   order: 3
-summary: Load code as you need it (if you need it)
+summary: Загружайте код так, как вам нужно (если вам это нужно)
 ---
 
-Parcel supports zero configuration code splitting out of the box. This allows you to split your application code into separate bundles which can be loaded on demand, which means smaller initial bundle sizes and faster load times. As the user navigates around in your application and modules are required, you can load child bundles on demand.
+Parcel поддерживает разделение кода нулевой конфигурации из коробки. Это позволяет разделить код приложения на отдельные пакеты, которые могут быть загружены по требованию, что означает меньшие начальные размеры пакетов и более быстрое время загрузки. Поскольку пользователь перемещается по вашему приложению и требуются модули, вы можете загружать дочерние пакеты по требованию.
 
 Code splitting is controlled by use of the dynamic `import()` syntax, which works like a hybrid of the normal `import` statement and the `require` function, but returns a Promise. This means that the module can be loaded asynchronously.
 
-## Using dynamic imports
+Разделение кода контролируется с помощью динамического синтаксиса `import()`, который работает как гибрид обычного оператора `import` и функции `require`, но возвращает обещание. Это означает, что модуль может быть загружен асинхронно.
 
-The following example shows how you might use dynamic imports to load a sub-page of your application on demand.
+## Использование динамического импорта
+
+В следующем примере показано, как можно использовать динамический импорт для загрузки подстраницы приложения по требованию.
 
 {% sample %}
 {% samplefile %}
 
 ```js
 import("./pages/about").then(function (page) {
-  // Render page
+  // Страница рендеринга
   page.render();
 });
 ```
@@ -30,16 +32,16 @@ import("./pages/about").then(function (page) {
 
 ```js
 export function render() {
-  // Render the page
+  // Отобразить страницу
 }
 ```
 
 {% endsamplefile %}
 {% endsample %}
 
-## Dynamic imports with async/await
+## Динамический импорт с помощью async/await
 
-Because `import()` returns a Promise, you can also use async/await syntax.
+Поскольку функция `import ()` возвращает обещание,вы также можете использовать синтаксис async/await.
 
 {% sample %}
 {% samplefile %}
@@ -47,7 +49,7 @@ Because `import()` returns a Promise, you can also use async/await syntax.
 ```js
 async function load() {
   const page = await import("./pages/about");
-  // Render page
+  // Страница рендеринга
   page.render();
 }
 load();
@@ -65,17 +67,17 @@ export function render() {
 {% endsamplefile %}
 {% endsample %}
 
-## "Internalized" Bundles
+## "Интернализованные" Пакеты
 
-If a asset is imported both synchrounously and asynchrounously, it doesn't make sense to create an actual async bundle (because the module is already loaded anyways).
+Если ресурс импортируется как синхронно, так и асинхронно, то нет смысла создавать фактический асинхронный пакет (поскольку модуль все равно уже загружен).
 
-In this situation, Parcel instead turns `import("foo")` into `Promise.resolve(require("foo"))`. So in a larger build, you should think of dynamic/async imports as "I don't need this import synchronously" rather than "This will become a new bundle".
+В этой ситуации Parcel вместо этого превращает `import("foo")` в `Promise.resolve(require("foo"))`. Поэтому в более крупной сборке вы должны думать о dynamic/async импорте как о "Мне не нужен этот импорт синхронно", а не "Это станет новой связкой".
 
-## Shared Bundles
+## Общие Пакеты
 
-In many situations (e.g. when two HTML entry with a JavaScript `<script>` use the asset(s) or when two dynamic imports have common assets), Parcel splits these into a separate sibling bundle ("shared" bundle) to minimize code duplication.
+Во многих ситуациях (например, когда две HTML-записи с JavaScript `<script>` используют актив(ы) или когда два динамических импорта имеют общие активы) Parcel разбивает их на отдельный родственный пакет ("общий" пакет), чтобы минимизировать дублирование кода.
 
-The parameters for when this happens can be configured in `package.json`:
+Параметры, когда это происходит, можно настроить в package.json:
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -97,31 +99,31 @@ The parameters for when this happens can be configured in `package.json`:
 {% endsamplefile %}
 {% endsample %}
 
-Options:
+Параметры:
 
-- **minBundles**: for an asset to be split, it has to be used by more than `minBundles` bundles
-- **minBundleSize**: for a shared bundled to be created, it has to be at least `minBundleSize` bytes big (before minification/treeshaking)
-- **maxParallelRequests**: To prevent overloading the network with too many concurrent requests, this ensure that a given bundle can have only `maxParallelRequests - 1` sibling bundles (which have be loaded together with the actual bundle).
+- **minBundles**: чтобы актив был разделен, он должен использоваться более чем пакетами `minBundles`
+- **minBundleSize**: для создания разделяемого бандла он должен быть как минимум в байтах `minBundleSize` (до минификации/treehaking)
+- **maxParallelRequests**: Чтобы предотвратить перегрузку сети слишком большим количеством одновременных запросов, это гарантирует, что данный пакет может иметь только одноуровневые пакеты `maxParallelRequests - 1` (которые были загружены вместе с фактическим пакетом).
 
-- **http**: This is a shorthand for setting the above values to defaults which are optimized for HTTP/1 or HTTP/2:
+- **http**: Это сокращение для установки вышеуказанных значений по умолчанию, которые оптимизированы для HTTP/1 или HTTP/2:
 
 | HTTP version `version` | `minBundles` | `minBundleSize` | `maxParallelRequests` |
 | ---------------------- | ------------ | --------------- | --------------------- |
 | 1                      | 1            | 30000           | 6                     |
 | 2 (default)            | 1            | 20000           | 25                    |
 
-You can read more about this topic here on [web.dev](https://web.dev/granular-chunking-nextjs/)
+Вы можете прочитать больше об этой теме здесь на [web.dev](https://web.dev/granular-chunking-nextjs/)
 
 <!--
 
-## Bundle resolution
+## Пакетное разрешение
 
 TODO ???
 
-Parcel infers the location of bundles automatically. This is done in the [bundle-url](https://github.com/parcel-bundler/parcel/blob/master/packages/core/parcel-bundler/src/builtins/bundle-url.js) module, and uses the stack trace to determine the path where the initial bundle was loaded.
+Parcel автоматически определяет местонахождение пакетов. Это делается в [bundle-url](https://github.com/parcel-bundler/parcel/blob/master/packages/core/parcel-bundler/src/builtins/bundle-url.js) модуле и использует трассировку стёка для определения пути, по которому был загружен исходный пакет.
 
-This means you don't need to configure where bundles should be loaded from, but also means you must serve the bundles from the same location.
+Это означает, что вам не нужно настраивать, откуда должны быть загружены пакеты, но также означает, что вы должны обслуживать пакеты из одного и того же места.
 
-Parcel currently resolves bundles at the following protocols: `http`, `https`, `file`, `ftp`, `chrome-extension` and `moz-extension`.
+В настоящее время Parcel разрешает пакеты по следующим протоколам: `http`, `https`, `file`, `ftp`, `chrome-extension` и `moz-extension`.
 
 -->

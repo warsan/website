@@ -4,35 +4,35 @@ eleventyNavigation:
   key: features-module-resolution
   title: 📔 Module Resolution
   order: 5
-summary: How dependencies are resolved
+summary: Как разрешаются зависимости
 ---
 
-The Parcel resolver implements a modified version of [the node_modules resolution](https://nodejs.org/api/modules.html#modules_all_together) algorithm.
+Решатель Parcel реализует модифицированную версию алгоритма [the node_modules resolution](https://nodejs.org/api/modules.html#modules_all_together).
 
-- **root directory**: the directory of the entrypoint specified to Parcel, or the shared root (nearest common parent directory) when multiple entrypoints are specified.
-- **project root**: the nearest directory from the root direct that contains a lockfile (`yarn.lock`, `package-lock.json`, `pnpm-lock.yaml`) or a VCS folder (`.git`, `.hg`)
+- **root directory**: каталог точки входа, указанной для Parcel, или общий корень (ближайший общий родительский каталог), если указано несколько точек входа.
+- **project root**: ближайший к корневому каталогу каталог, содержащий файл блокировки(`yarn.lock`, `package-lock.json`, `pnpm-lock.yaml`) или папка VCS (`.git`, `.hg`)
 
-### Absolute Paths
+### Абсолютные пути
 
-`/foo` resolves `foo` relative to the **project root**.
+`/foo` разрешает `foo` относительно **project root**.
 
-### Tilde Paths
+### Тильды Пути
 
-`~/foo` resolves `foo` relative to nearest **`node_modules`** directory, the nearest directory with **`package.json`** or the project root - whichever comes first.
+`~/foo` разрешает `foo` относительно ближайшего **`node_modules`** каталога, ближайшего каталога с **`package.json`** или корня проекта - в зависимости от того, что наступит раньше.
 
-### package.json `browser` field
+### package.json `browser` поле
 
-If a package includes a [package.browser field](https://docs.npmjs.com/files/package.json#browser) (and it is a string), Parcel will use this instead of the package.main entry.
+Если в комплект входит [package.browser field](https://docs.npmjs.com/files/package.json#browser) (и это строка), Parcel будет использовать это вместо записи `package.main`.
 
-If it is an object, it behaves just like [`aliases`](#aliases), but has a higher priority when [`target.context === "browser"`](/configuration/package-json/#context).
+Если это объект, он ведет себя так же, как [`aliases`](#aliases), но имеет более высокий приоритет, когда [`target.context === "browser"`](/configuration/package-json/#context).
 
-### Aliases
+### Псевдонимы
 
-Aliases are supported through the `alias` field in `package.json`.
+Псевдонимы поддерживаются через поле `alias` в` package.json`.
 
-This example aliases `react` to `preact` and some local custom module that is not in `node_modules`.
+В этом примере псевдонимы реагируют (`react`) на `preact` и некоторые локальные настраиваемые модули, которых нет в `node_modules`.
 
-They can also map to global variables expected to exist at runtime. This can be helpful for replacing a dependency with, for example, a version loaded from a CDN.
+Они также могут отображаться в глобальные переменные, которые, как ожидается, будут существовать во время выполнения. Это может быть полезно для замены зависимости, например, версией, загруженной из CDN.
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -56,18 +56,19 @@ They can also map to global variables expected to exist at runtime. This can be 
 {% endsamplefile %}
 {% endsample %}
 
-Avoid using any special characters in your aliases as some may be used by Parcel and others by 3rd party tools or extensions. For example:
+Избегайте использования каких-либо специальных символов в своих псевдонимах, поскольку некоторые из них могут использоваться Parcel, а другие - сторонними инструментами или расширениями. Например:
 
-- `~` is used by Parcel to resolve [tilde paths](#tilde-paths).
-- `@` is used by npm to for packages by npm organizations.
+- `~` используется Parcel для разрешения [tilde paths](#tilde-paths).
+- `@` используется npm для пакетов от npm-организаций.
 
-We advise being explicit when defining your aliases, so please **specify file extensions**, otherwise Parcel will need to guess. See [JavaScript Named Exports](#javascript-named-exports) for an example of this.
+Мы советуем быть явным при определении псевдонимов, поэтому, пожалуйста, **указывайте расширения файлов**, в противном случае посылку нужно будет угадывать. См. [JavaScript Named Exports](#javascript-named-exports) для примера этого.
 
-Prefixing global aliases with `window` or `globalThis` (e.g. `window.jQuery`) could fail with multi-platform builds and is not recommended. Although file aliases can be `"path/to/file"` instead of `{ "fileName": "path/to/file" }`, globals must use the `{ "global": "name" }` format.
+Добавление к глобальным псевдонимам префикса `window` или `globalThis` (например `window.jQuery`) может дать сбой при многоплатформенных сборках и не рекомендуется.  
+Хотя псевдонимами файлов могут быть `"path/to/file"` вместо `{ "fileName": "path/to/file" }`, глобальные переменные должны использовать формат `{ "global": "name" }`.
 
-### Externals
+### Внешние
 
-Externals must be configured on a target-by-target basis with [`includeNodeModules`](/configuration/package-json#includenodemodules). Like globals, externals will not be bundled, but they will instead be imported at runtime.
+Внешние элементы должны быть настроены для каждой цели с помощью [`includeNodeModules`](/configuration/package-json#includenodemodules). Как и глобальные переменные, внешние элементы не будут объединяться, но вместо этого они будут импортированы во время выполнения.
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -87,9 +88,9 @@ Externals must be configured on a target-by-target basis with [`includeNodeModul
 {% endsamplefile %}
 {% endsample %}
 
-### Package entry fields
+### Поля ввода пакета
 
-When scope hoisting is enabled, a bare specified (e.g. `lodash`) is resolved in this order (the first field that specified and points to ane existing file):
+Когда подъем области видимости включен, только указанное значение (например, `lodash`) разрешается в следующем порядке (первое указанное поле и указывает на существующий файл):
 
 - `package.json#source`
 - `package.json#browser`
@@ -97,7 +98,7 @@ When scope hoisting is enabled, a bare specified (e.g. `lodash`) is resolved in 
 - `package.json#main`
 - `index.{js, json}`
 
-Without scope hoisting however, `main` is preferred to `module` for better performance:
+Однако без поднятия области видимости `main` предпочтительнее `module` для лучшей производительности:
 
 - `package.json#source`
 - `package.json#browser`
@@ -105,11 +106,11 @@ Without scope hoisting however, `main` is preferred to `module` for better perfo
 - `package.json#module`
 - `index.{js, json}`
 
-## Common issues
+## Общие проблемы
 
-### Javascript Named Exports
+### Javascript Named Экспорт
 
-Alias mappings apply to many asset types and do not specifically support mapping of JavaScript named exports. If you wish to map JS named exports you can re-export the named export within the aliased file:
+Сопоставления псевдонимов применяются ко многим типам ресурсов и специально не поддерживают сопоставление именованных экспортов JavaScript. Если вы хотите сопоставить JS именованный экспорт, вы можете повторно экспортировать именованный экспорт в файл с псевдонимом:
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -118,7 +119,7 @@ Alias mappings apply to many asset types and do not specifically support mapping
 {
   name: "some-package",
   alias: {
-    ipcRenderer: "./electron-ipc.js", // specify file extension
+    ipcRenderer: "./electron-ipc.js", // указать расширение файла
   },
 }
 ```
@@ -133,11 +134,11 @@ module.exports = require("electron").ipcRenderer;
 {% endsamplefile %}
 {% endsample %}
 
-### Flow with Absolute or Tilde Resolution
+### Поток с абсолютным разрешением или разрешением тильды
 
-When using absolute path or tilde path module resolution you must configure Flow using the [module.name_mapper](https://flow.org/en/docs/config/options/#toc-module-name-mapper-regex-string) feature.
+При использовании абсолютного пути или разрешения модуля пути тильды вы должны настроить Flow с помощью [module.name_mapper](https://flow.org/en/docs/config/options/#toc-module-name-mapper-regex-string) характерная черта.
 
-Given a project with this structure and `src/index.html` as an entrypoint, the **entry root** is the `src/` folder.
+Учитывая проект с такой структурой и `src/index.html` в качестве точки входа, **корень записи** является папкой `src/`.
 
 ```
 ├── package.json
@@ -151,6 +152,8 @@ Given a project with this structure and `src/index.html` as an entrypoint, the *
 ```
 
 Therefore, to map this import correctly, Flow should replace the leading `/` in `'/components/apple'` with `src/`, resulting in `'src/components/apple'`. That is achieved by the following setting in your `.flowconfig`.
+
+Следовательно, чтобы правильно сопоставить этот импорт, Flow должен заменить начальный `/` в `'/components/apple'` на `src/`, в результате получится `'src/components/apple'`. Это достигается следующей настройкой в ​​вашем `.flowconfig`.
 
 {% sample %}
 {% samplefile "index.js" %}
@@ -167,15 +170,15 @@ import Apple from "/components/apple";
 module.name_mapper='^\/\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
 ```
 
-`<PROJECT_ROOT>` is a Flow specific identifier indicating the location of your `.flowconfig`.
+`<PROJECT_ROOT>` является идентификатором потока, указывающим местоположение вашего `.flowconfig`.
 {% endsamplefile %}
 {% endsample %}
 
-Note: `module.name_mapper` can have multiple entries. This enabled support for [absolute](#absolute-paths) or [tilde](#~-tilde-paths) Path Resolution in addition to [local module aliasing](#aliases) support.
+Примечание: `module.name_mapper` может иметь несколько записей. Это позволило поддерживать [absolute](#absolute-paths) или [tilde](#~-tilde-paths) Разрешение пути в дополнение к поддержке [local module aliasing](#aliases).
 
-### TypeScript ~ Resolution
+### TypeScript ~ Разрешение
 
-TypeScript will need to know about your use of the `~` module resolution or alias mappings. Please refer to the [TypeScript Module Resolution docs](https://www.typescriptlang.org/docs/handbook/module-resolution.html) for further information.
+TypeScript должен будет знать о вашем использовании разрешения модуля `~` или сопоставлений псевдонимов. Пожалуйста, обратитесь к [TypeScript Module Resolution docs](https://www.typescriptlang.org/docs/handbook/module-resolution.html) для получения дополнительной информации.
 
 {% sample %}
 {% samplefile "tsconfig.json" %}
@@ -194,16 +197,16 @@ TypeScript will need to know about your use of the `~` module resolution or alia
 {% endsamplefile %}
 {% endsample %}
 
-### Monorepo Resolution
+### Монорельсовое Разрешение
 
 TODO?
 
-These are the advised usages with monorepos at this time:
+Это рекомендуемые способы использования монорецепторов в настоящее время:
 
-Advised usage:
+Рекомендуемое использование:
 
-- use relative paths.
-- use `/` for a root path if a root is required.
-- **avoid** `~` within monorepos.
+- используйте относительные пути.
+- используйте `/` для корневого пути, если требуется корневой путь.
+- **избегайте** `~` в пределах монорельса.
 
-If you're a monorepo user and would like to contribute to these recommendations, please provide example repos when opening issues to support the discussion.
+Если вы являетесь пользователем monorepo и хотите внести свой вклад в эти рекомендации, пожалуйста, предоставьте примеры repos при открытии вопросов для поддержки обсуждения.

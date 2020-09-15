@@ -4,12 +4,12 @@ eleventyNavigation:
   key: features-hmr
   title: 🔥 Hot Module Replacement
   order: 4
-summary: Refreshing your JS app without a full page reload
+summary: Обновление вашего JS приложения без полной перезагрузки страницы
 ---
 
-Hot Module Replacement (HMR) improves the development experience by automatically updating modules in the browser at runtime without needing a whole page refresh. This means that application state can be retained as you change small things. Parcel's HMR implementation supports both JavaScript and CSS assets.
+Горячая замена модулей (HMR) улучшает опыт разработки, автоматически обновляя модули в браузере во время выполнения без необходимости обновления всей страницы. Это означает, что состояние приложения может быть сохранено при изменении небольших вещей. Реализация HMR Parcel поддерживает как JavaScript, так и CSS-ресурсы.
 
-By default, Parcel fully refreshes the page when files change. You can opt-in to enable true HMR by adding the following in your app. This will only apply in development; HMR is automatically disabled when bundling in production mode.
+По умолчанию Parcel полностью обновляет страницу при изменении файлов. Вы можете отказаться, чтобы позволить истинным ГРМ, добавив следующее в вашем приложении. Это будет применяться только в разработке; HMR автоматически отключается при комплектации в производственном режиме.
 
 {% sample %}
 {% samplefile "index.js" %}
@@ -23,9 +23,9 @@ if (module.hot) {
 {% endsamplefile %}
 {% endsample %}
 
-As you save files, Parcel rebuilds what changed and sends an update to any running clients containing the new code. The new code then replaces the old version, and is re-evaluated along with all parents. You can hook into this process using the `module.hot` API, which can notify your code when a module is about to be disposed, or when a new version comes in. For React, this happens automatically (see [React](</recipes/react/#hmr-(fast-refresh)>))
+При сохранении файлов Parcel перестраивает то, что изменилось, и отправляет обновление всем запущенным клиентам, содержащим новый код. Новый код затем заменяет старую версию и повторно оценивается вместе со всеми родителями. Вы можете подключиться к этому процессу с помощью модуля`.горячий ' API, который может уведомлять ваш код, когда модуль собирается быть удален, или когда приходит новая версия. Для React это происходит автоматически (см. [React](</recipes/react/#hmr-(fast-refresh)>))
 
-There are two methods to know about: `module.hot.accept` and `module.hot.dispose`. You call `module.hot.accept` with a callback function which is executed when that module or any of its dependencies are updated. `module.hot.dispose` accepts a callback which is called when that module is about to be replaced.
+Есть два метода, о которых нужно знать: `module.hot.accept` и `module.hot.dispose`. Вы называете это `module.hot.accept` с функцией обратного вызова, которая выполняется при обновлении этого модуля или любой из его зависимостей. `module.hot.dispose` принимает обратный вызов, который вызывается, когда этот модуль собирается быть заменён.
 
 {% sample %}
 {% samplefile "index.js" %}
@@ -33,14 +33,14 @@ There are two methods to know about: `module.hot.accept` and `module.hot.dispose
 ```js
 if (module.hot) {
   module.hot.dispose(function (data) {
-    // module is about to be replaced.be
-    // You can save data that should be accessible to the new asset in `data`
+    // модуль вот-вот будет готов replaced.be
+    // Вы можете сохранить данные, которые должны быть доступны для нового актива, в разделе "Данные".
     data.updated = Date.now();
   });
 
   module.hot.accept(function (getParents) {
     let { updated } = module.hot.data;
-    // module or one of its dependencies was just updated
+    // модуль или одна из его зависимостей только что была обновлена
   });
 }
 ```
@@ -48,15 +48,17 @@ if (module.hot) {
 {% endsamplefile %}
 {% endsample %}
 
-## Safe Write
+## Безопасная Запись
 
-Some text editors and IDE's have a feature called `safe write` that basically prevents data loss, by taking a copy of the file and renaming it when saved.
+Некоторые текстовые редакторы и IDE имеют функцию под названием `safe write`, которая в основном предотвращает потерю данных, беря копию файла и переименовывая его при сохранении.
 
 When using Hot Module Reload (HMR) this feature blocks the automatic detection of file updates, to disable `safe write` use the options provided below:
 
-- Sublime Text 3: add `atomic_save: "false"` to your user preferences.
-- IntelliJ: use search in the preferences to find "safe write" and disable it.
-- Vim: add `:set backupcopy=yes` to your settings.
-- WebStorm: uncheck `Use "safe write"` in Preferences > Appearance & Behavior > System Settings.
+При использовании Hot Module Reload (HMR) эта функция блокирует автоматическое обнаружение обновлений файлов, чтобы отключить `safe write`, используйте следующие опции:
 
-(This functionality is provided by `@parcel/runtime-browser-hmr`.)
+- Sublime Text 3: Добавьте `atomic_save: "false"` в ваши пользовательские настройки.
+- IntelliJ: используйте поиск в настройках, чтобы найти "безопасную запись" и отключить её.
+- Vim: добавьте `:set backupcopy=yes` к вашим настройкам.
+- WebStorm: снимите флажок `Use "safe write"` в настройках > внешний вид и поведение > Системные настройки.
+
+(Эта функциональность обеспечивается `@parcel/runtime-browser-hmr`.)

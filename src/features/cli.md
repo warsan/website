@@ -4,20 +4,20 @@ eleventyNavigation:
   key: features-cli
   title: ⌨️ CLI
   order: 2
-summary: The "parcel" command
+summary: Команда "parcel" 
 ---
 
-## Commands
+## Команды
 
-The "entries" in all commands can be:
+«Записи» во всех командах могут быть:
 
-- one or more files
-- one or more globs
-- one or more directorises (see [Specifying Entrypoints](/getting-started/configuration/#specifying-entrypoints))
+- один или несколько файлов
+- один или несколько шариков
+- один или несколько директорий (см. [Specifying Entrypoints](/getting-started/configuration/#specifying-entrypoints))
 
 {% warning %}
 
-If a glob pattern contains a wildcard `*`, be sure to wrap the pattern in single quotes. This ensures that Parcel reads the pattern correctly without it being manipulated by your shell.
+Если шаблон глобуса содержит подстановочный знак `*`, убедитесь, что шаблон заключен в одинарные кавычки. Это гарантирует, что Parcel правильно прочитает шаблон, не подвергаясь манипуляциям со стороны вашей оболочки.
 
 ```bash
 # OK
@@ -33,8 +33,8 @@ parcel ./img/**/*
 
 ### `parcel [serve] <entries>`
 
-Starts up a development server, which will automatically rebuild your app as you change files and supports [hot module replacement](/features/hmr/).
-You may also pass a glob or list of globs for multiple entry points:
+Запускает сервер разработки, который автоматически перестраивает ваше приложение по мере изменения файлов и поддерживает [hot module replacement](/features/hmr/).
+Вы также можете передать глобус или список глобусов для нескольких точек входа:
 
 ```bash
 parcel index.html
@@ -44,15 +44,15 @@ parcel './**/*.html'
 
 {% warning %}
 
-If you have specified multiple HTML entry points and none of them is has the output path `/index.html`, the dev server will respond to `localhost:1234/` with a 404, since Parcel doesn't know which HTML bundle is the index.
+Если вы указали несколько точек входа HTML и ни одна из них не имеет пути вывода `/index.html`, сервер разработки ответит на `localhost:1234/` кодом 404, поскольку Parcel не знает, какой HTML-пакет является индекс.
 
-In this case, load the file directly e.g. `http://localhost:1234/a.html` and `http://localhost:1234/b.html`
+В этом случае загрузите файл напрямую, например `http://localhost:1234/a.html` и `http://localhost:1234/b.html`
 
 {% endwarning %}
 
 ### `parcel watch <entries>`
 
-The watch command is similar to `serve`, but only with a HMR server and no HTTP (dev) server.
+Команда watch похожа на `serve`, но только с HMR-сервером и без HTTP (dev) сервера.
 
 ```bash
 parcel index.html

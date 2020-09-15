@@ -28,7 +28,9 @@ Parcel загружает файлы `.env` с этими именами для 
 - `.env.local` не загружается, когда `NODE_ENV=test` поскольку [тесты должны давать одинаковые результаты для всех](https://github.com/parcel-bundler/parcel/blob/28df546a2249b6aac1e529dd629f506ba6b0a4bb/src/utils/env.js#L9)
 - Иногда введение нового файла .env не срабатывает сразу. В этом случае попробуйте удалить каталог .cache/.
 - Доступ напрямую к объекту `process.env` [не поддерживается] (https://github.com/parcel-bundler/parcel/issues/2299#issuecomment-439768971), но доступ к конкретным переменным на нем, например, `process.env.API_KEY` предоставит ожидаемое значение.
-- Используйте встроенный в Node.js глобальный `process`, т.е. не `import process from "process"`. Если вы используете TypeScript, вы, вероятно, захотите установить `@types/node` для его компиляции.
+- Use the built-in `process` Node.js global, i.e. don't do `import process from "process"`. If you use TypeScript, you probably want to install `@types/node` for it to compile.
+
+Используйте встроенный в Node.js глобальный `process`, т.е. не `import process from "process"`. Если вы используете TypeScript, вы, вероятно, захотите установить `@types/node` для его компиляции.
 
 ## 🕳️ Полифиллинг и исключение встроенного Node Modules
 
@@ -49,12 +51,12 @@ Parcel загружает файлы `.env` с этими именами для 
 | path          | `path-browserify`          | vm             | `vm-browserify`      |
 | zlib          | `browserify-zlib`          |
 
-## 📄 Inlining fs.readFileSync
+## 📄 Встраивание fs.readFileSync
 
-Calls to `fs.readFileSync` are replaced with the file's contents if the filepath is statically determinable and inside the [project root](/features/module-resolution/)
+Вызов `fs.readFileSync` заменяется содержимым файла, если путь к файлу статически определяется и находится внутри [project root](/features/module-resolution/)
 
-- `fs.readFileSync(..., "utf8")`: with the contants as string with (or any other valid encoding)
-- `fs.readFileSync(...)`: a Buffer object (e.g. `Buffer.from(....)` together with the an potentionally necessary polyfill)
+- `fs.readFileSync(..., "utf8")`: с контентами в виде строки с (или любой другой допустимой кодировкой)
+- `fs.readFileSync(...)`: объект Buffer (например, `Buffer.from (....)` вместе с потенциально необходимым полифилом)
 
 {% sample "build index.js" %}
 {% samplefile "index.js" %}
@@ -79,9 +81,9 @@ console.log("data");
 {% endsamplefile %}
 {% endsample %}
 
-## 🔧 Disabling These Features
+## 🔧 Отключение этих функций
 
-Inlining of [environment variables](#🌳-environment-variables) and [`readFileSync` calls](#%F0%9F%93%84-inlining-fs.readfilesync) can be disabled via a `@parcel/transformer-js` key in `package.json`:
+Встраивание [environment variables](#🌳-environment-variables) и [`readFileSync` calls](#%F0%9F%93%84-inlining-fs.readfilesync) можно отключить с помощью ключа  `@parcel/transformer-js` в `package.json`:
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -102,7 +104,7 @@ Inlining of [environment variables](#🌳-environment-variables) and [`readFileS
 {% endsamplefile %}
 {% endsample %}
 
-`inlineEnvironment` can also be an array of glob strings:
+`inlineEnvironment` также может быть массивом глобальных строк:
 
 ```json5
 {
@@ -118,6 +120,8 @@ Inlining of [environment variables](#🌳-environment-variables) and [`readFileS
 
 `inlineFS` applies to `readFileSync` calls and `inlineEnvironment` to `process.env.SOMETHING`:
 
+`inlineFS` применяется к вызовам `readFileSync`, а `inlineEnvironment` - к `process.env.SOMETHING`:
+
 ```ts
 {
   inlineFS: boolean,
@@ -125,4 +129,4 @@ Inlining of [environment variables](#🌳-environment-variables) and [`readFileS
 }
 ```
 
-(This functionality is provided by `@parcel/transformer-js` and `@parcel/resolver-default`.)
+(Эта функциональность предоставляется `@parcel/transformer-js` и `@parcel/resolver-default`.)
