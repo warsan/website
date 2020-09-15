@@ -4,10 +4,10 @@ eleventyNavigation:
   key: plugin-system-runtime
   title: Runtime
   order: 7
-summary: "A plugin type: Programatically insert assets out of thin air into bundles"
+summary: "Тип плагина: программно вставляйте ресурсы из воздуха в пакеты."
 ---
 
-Runtimes accept a bundle and return assets to be inserted into that bundle.
+Среды выполнения принимают пакет и возвращают ресурсы для вставки в этот пакет.
 
 ```js
 import { Runtime } from "@parcel/runtime";
@@ -20,6 +20,6 @@ export default new Runtime({
 });
 ```
 
-## Relevant API
+## Соответствующий API
 
 {% include "../../api/runtime.html" %}

@@ -4,10 +4,10 @@ eleventyNavigation:
   key: plugin-system-packager
   title: Packager
   order: 8
-summary: "A plugin type: Turn a group of assets into a bundle file"
+summary: "Тип плагина: превратите группу ресурсов в файл пакета."
 ---
 
-Packagers determine how to merge different asset types into a single bundle.
+Упаковщики определяют, как объединить различные типы активов в один комплект.
 
 ```js
 import { Packager } from "@parcel/plugin";
@@ -20,6 +20,6 @@ export default new Packager({
 });
 ```
 
-## Relevant API
+## Соответствующий API
 
 {% include "../../api/packager.html" %}
