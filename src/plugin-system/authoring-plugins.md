@@ -4,27 +4,24 @@ eleventyNavigation:
   key: plugin-system-authoring-plugins
   title: Authoring Plugins
   order: 2
-summary: "What to take in mind when authoring a plugin"
+summary: "Что нужно учитывать при создании плагина"
 ---
 
-## Plugin APIs
+## Плагин API
 
-There are several different types of plugins. They all look very similar, but
-are kept separate so we can have strict contracts one what each one is allowed
-to do.
+Есть несколько разных типов плагинов. Все они очень похожи, но
+хранятся отдельно, поэтому у нас могут быть строгие контракты, по одному, что разрешено каждому
+делать.
 
-There are some rules that should be followed across every type of plugin:
+Есть несколько правил, которые следует соблюдать для каждого типа плагина:
 
-- **Stateless** — Avoid any kind of state, it will likely be the source of bugs
-  for your users. For example, the same transform may exist in multiple
-  separate workers which are not allowed to communicate with one another, state
-  will not work as expected.
-- **Pure** — Given the same input, a plugin must produce the same output, and
-  you must not have any observable side effects, or implicit dependencies.
-  Otherwise Parcel's caching will break and your users will be sad. You should
-  never have to tell users to delete their caches.
+- **Stateless** — Избегайте любых состояний, они могут быть источником ошибок для ваших пользователей. Например, одно и то же преобразование может существовать у многих работников, которым запрещено общаться друг с другом, - заявляю, что это не будет работать должным образом.
+- **Pure** — Учитывая тот же ввод, плагин должен производить тот же вывод, и
+  у вас не должно быть никаких наблюдаемых побочных эффектов или неявных зависимостей.
+  В противном случае кеширование Parcel сломается, и вашим пользователям будет грустно.  
+  Вам не следует указывать пользователям удалять их кеши.
 
-The plugin APIs all follow a common shape:
+Все API-интерфейсы плагинов имеют общую форму:
 
 ```js
 import { NameOfPluginType } from "@parcel/plugin";
@@ -36,19 +33,19 @@ export default new NameOfPluginType({
 });
 ```
 
-They are made up of modules with well-known named exports of async functions
-that:
+Они состоят из модулей с хорошо известными именованными экспортами асинхронных функций,
+которые:
 
-- Accept a strictly validated JSON-serializable `opts` object.
-- Return a strictly validated JSON-serializable `vals` object.
+- Принимают строго проверенный JSON-сериализуемый объект `opts`.
+- Возвращают строго проверенный JSON-сериализуемый объект `vals`.
 
-If something you need is not being passed through `opts`, please come talk to
-the Parcel team about it. Avoid trying to get information yourself from other
-sources, especially from the file system.
+Если что-то, что вам нужно, не проходит через `opts`, пожалуйста, поговорите с
+командой Parcel об этом. Избегайте попыток получить информацию из других
+исходников, особенно из файловой системы.
 
-## Naming
+## Именование
 
-All plugins must follow a naming system:
+Все плагины должны соответствовать системе именования:
 
 <div style="font-size: 0.9em">
 
@@ -67,9 +64,9 @@ All plugins must follow a naming system:
 
 </div>
 
-The `{name}` must be descriptive and directly related to the purpose of the
-package. Someone should be able to have an idea of what the package does simply
-by reading the name in a `.parcelrc` or `package.json#devDependencies`.
+`{Name}` должен быть описательным и иметь прямое отношение к цели
+пакета. Кто-то должен иметь представление о том, что делает пакет, просто
+прочитав имя в файле `.parcelrc` или `package.json#devDependencies`.
 
 ```
 parcel-transformer-posthtml
@@ -77,40 +74,39 @@ parcel-packager-wasm
 parcel-reporter-graph-visualizer
 ```
 
-If your plugin adds support for a specific tool, please use the name of the
-tool.
+Если ваш плагин добавляет поддержку определенного инструмента, используйте имя
+инструмента.
 
 ```
 parcel-transformer-es6 (bad)
 parcel-transformer-babel (good)
 ```
 
-If your plugin is a reimplementation of something that exists, try naming it
-something that explains why it is a separate:
+Если ваш плагин является повторной реализацией чего-то существующего, попробуйте назвать его
+именем, объясняющим причину его создания:
 
 ```
 parcel-transformer-better-typescript (bad)
 parcel-transformer-typescript-server (good)
 ```
 
-We ask that community members work together and when forks happen to try and
-resolve them. If someone made a better version of your plugin, please consider
-giving the better package name over, have them make a major version bump, and
-redirect people to the new tool.
+Мы просим членов сообщества работать вместе, и когда форки могут пробовать, - 
+разрешите их. Если кто-то сделал более удачную версию вашего плагина, - рассмотрите его,
+давая лучшее имя пакета, попросите их сделать более крупную версию, и
+перенаправьте этих людей на новый инструмент.
 
-## Versioning
+## Управление версиями
 
-You must follow semantic versioning (to the best of your ability). No, it's not
-the perfect system, but it's the best one we have and people do depend on it.
+Вы должны следовать семантическому управлению версиями (насколько это возможно).  
+- Нет, это не столь идеальная система, но она самая лучшая, и люди действительно от нее зависят.
 
-If plugin authors intentionally don't follow semantic versioning, Parcel may
-start warning users that they should be locking down the version number for
-your plugin.
+Если авторы плагина намеренно не следуют семантическому управлению версиями, Parcel может
+начать предупреждать пользователей о том, что они должны заблокировать номер версии для
+вашего плагина.
 
-## Engines
+## Двигатели
 
-You must specify a `package.json#engines.parcel` field with the version range
-of Parcel that your plugin supports:
+Вы должны указать поле `package.json#engines.parcel` с диапазоном версий Parcel, которые поддерживают ваш плагин:
 
 ```json
 {
@@ -121,19 +117,19 @@ of Parcel that your plugin supports:
 }
 ```
 
-If you do not specify this field, Parcel will output a warning:
+Если вы не укажете это поле, Parcel выдаст предупреждение:
 
 ```
 Warning: The plugin "parcel-transform-typescript" needs to specify a
 `package.json#engines.parcel` field with the supported Parcel version range.
 ```
 
-If you do specify the parcel engine field and the user is using an incompatible
-version of Parcel, they will see an error:
+Если вы указали поле машины посылок, а пользователь использует несовместимую
+версию Parcel, они увидят ошибку:
 
 ```
 Error: The plugin "parcel-transform-typescript" is not compatible with the
 current version of Parcel. Requires "2.x" but the current version is "3.1.4"
 ```
 
-Parcel uses `node-semver` to match version ranges.
+Parcel использует `node-semver` для сопоставления диапазонов версий.

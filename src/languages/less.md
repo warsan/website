@@ -8,4 +8,4 @@ eleventyNavigation:
 
 TODO
 
-(This functionality is provided by `@parcel/transformer-less`)
+(Эта функциональность предоставляется `@parcel/transformer-less`)

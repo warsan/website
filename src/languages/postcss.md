@@ -6,26 +6,26 @@ eleventyNavigation:
   order: 5
 ---
 
-To motivate some of the following tips, here's an overview over how Parcel processes CSS files (in that order):
+Чтобы мотивировать некоторые из следующих советов, вот обзор того, как Parcel обрабатывает файлы CSS (в указанном порядке):
 
 - `@parcel/transformer-postcss`:
-  Applies `.postcssrc` and might generate a CSS modules map
+  Применяет `.postcssrc` и может генерировать карту модулей CSS
 - `@parcel/transformer-css`:
-  Registers `@import ...` and `url(...)` into Parcel's graph
+  Регистрирует `@import ...` и `url(...)` в графике Parcel
 - `@parcel/packager-css`:
-  Concat all CSS assets into a single bundle.
+  Объединяет все ресурсы CSS в один пакет.
 - `@parcel/optimizer-cssnano`:
-  Minify the bundle output from `@parcel/packager-css`.
+  Минимизирует вывод пакета из `@parcel/packager-css`.
 
-As you can see, each asset is processed individually by PostCSS and concatenated with the others afterwards.
+Как видите, каждый актив обрабатывается PostCSS индивидуально и впоследствии объединяется с другими.
 
-Parcel reads PostCSS from these files (in that priority): `.postcssrc`, `.postcssrc.json`, `.postcssrc.js`, `postcss.config.js`.
+Parcel считывает PostCSS из этих файлов (с указанным приоритетом): `.postcssrc`, `.postcssrc.json`, `.postcssrc.js`, `postcss.config.js`.
 
-## CSS Modules
+## Модули CSS
 
-There are two ways to enable CSS modules:
+Есть два способа включить модули CSS:
 
-- Either globally in the PostCSS config file (this way you can also configure the underlying `postcss-modules` plugin).
+- Либо глобально в файле конфигурации PostCSS (таким образом вы также можете настроить базовый плагин `postcss-modules`).
 
 {% sample %}
 {% samplefile ".postcssrc" %}
@@ -44,7 +44,7 @@ There are two ways to enable CSS modules:
 {% endsamplefile %}
 {% endsample %}
 
-- Or on a per-file basis: by using the file extension `.module.css` (or `.module.scss`, etc.).
+- Или для каждого файла: с помощью расширения файла `.module.css` (или `.module.scss`, etc.).
 
 {% sample %}
 {% samplefile "app.module.css" %}
@@ -69,15 +69,15 @@ export function App() {
 {% endsamplefile %}
 {% endsample %}
 
-## Using `postcss-import`
+## С помощью `postcss-import`
 
 <!-- https://github.com/parcel-bundler/parcel/issues/1165 -->
 
-Some PostCSS plugins (e.g. `postcss-custom-properties`) potentionally need to access declarations from other `@import`ed CSS assets.
+Некоторым плагинам PostCSS (например, `postcss-custom-properties`) потенциально необходим доступ к объявлениям из других CSS-ресурсов, импортируемых через `@import`ed CSS.
 
-If you do want to run PostCSS on the whole bundle, we recommend you use `postcss-import` (to inline `@imports`) and `postcss-url` (to rewrite `url(...)` expressions appropriately).
+Если вы хотите запустить PostCSS для всего пакета, мы рекомендуем использовать `postcss-import` (встроить `@imports`) и `postcss-url` (переписать в `url(...)` соответствующие выражения).
 
-This isn't done by default because it would have a negative effect on caching (Parcel could't reuse unchanged CSS files anymore).
+По умолчанию это не делается, поскольку это может отрицательно повлиять на кеширование (Parcel больше не может повторно использовать неизмененные файлы CSS).
 
 {% sample "index.html", "column" %}
 {% samplefile "index.html" %}

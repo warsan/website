@@ -4,16 +4,16 @@ eleventyNavigation:
   key: getting-started-migration
   title: 🚚 Migration
   order: 5
-summary: Some tips for migration from Parcel 1 to Parcel 2
+summary: Несколько советов по переходу с Parcel 1 на Parcel 2
 ---
 
-For the most part, you shouldn't have to change much when upgrading to Parcel 2:
+По большей части, вам не придется много менять при обновлении до Parcel 2:
 
-## Code Changes
+## Изменения кода
 
-### Importing non-code assets from Javascript
+### Импорт ресурсов, не связанных с кодом из Javascript
 
-If you want import the url to an image (or a soundfile, etc.) from Javascript, you need to prepend `url:` to the module specifier (read more about named pipelines in [Plugin Configuration](</configuration/plugin-configuration/#predefined-(offical)-named-pipelines>))
+Если вы хотите импортировать URL-адрес изображения (или звукового файла и т. Д.) Из Javascript, вам необходимо добавить `url:` к спецификатору модуля (подробнее об именованных конвейерах см. [Plugin Configuration](</configuration/plugin-configuration/#predefined-(offical)-named-pipelines>))
 
 {% migration %}
 {% samplefile "index.js" %}
@@ -36,7 +36,7 @@ document.body.innerHTML = `<img src="${logo}">`;
 {% endsamplefile %}
 {% endmigration %}
 
-Alternatively, you can use a custom `.parcelrc` to opt into the old behaviour (add more asset extensions if you use them):
+В качестве альтернативы вы можете использовать собственный файл `.parcelrc`, чтобы выбрать старое поведение (добавьте дополнительные расширения ресурсов, если вы их используете):
 
 {% migration %}
 {% samplefile ".parcelrc" %}
@@ -55,13 +55,13 @@ Alternatively, you can use a custom `.parcelrc` to opt into the old behaviour (a
 
 ### Typescript
 
-Parcel 1 transpiled TypeScript using `tsc` (the official TypeScript compiler). Parcel 2 instead uses Babel (using `@babel/preset-env`) by default. This has two notable consequences:
+Посылка 1 транслировала TypeScript с помощью `tsc` (официальный компилятор TypeScript). Вместо этого в Parcel 2 по умолчанию используется Babel (с использованием `@babel/preset-env`). Это имеет два важных последствия:
 
-(The [TypeScript page](/languages/typescript) contains more informations - and limitations - of Parcel's TypeScript handling.)
+(Этот [TypeScript page](/languages/typescript) содержит дополнительную информацию - и ограничения - обработки Parcel TypeScript.)
 
-###### `@babel/preset-typescript` Isn't inserted Automatically into a Custom `.babelrc`.
+###### `@babel/preset-typescript` не вставляется автоматически в пользовательский `.babelrc`.
 
-For most use cases, transpiling using Babel is enough, so Parcel includes `@babel/preset-typescript` in its default Babel config for TypeScript assets. You need to specify it manually however if you are using a custom `.babelrc`:
+В большинстве случаев транспиляции с использованием Babel достаточно, поэтому Parcel включает `@babel/preset-typescript` в свою конфигурацию Babel по умолчанию для ресурсов TypeScript. Однако, если вы используете собственный файл `.babelrc`, вам нужно указать его вручную:
 
 {% migration %}
 {% samplefile ".babelrc" %}
@@ -86,9 +86,9 @@ For most use cases, transpiling using Babel is enough, so Parcel includes `@babe
 {% endsamplefile %}
 {% endmigration %}
 
-###### Babel Doesn't Read `tsconfig.json`
+###### Babel ре читает `tsconfig.json`
 
-In case Babel doesn't work for you (e.g. because of an advanced `tsconfig.json`), you can use `tsc`:
+Если Babel у вас не работает (например, из-за расширенного `tsconfig.json`), вы можете использовать `tsc`:
 
 {% migration %}
 {% samplefile ".parcelrc" %}
@@ -106,18 +106,18 @@ In case Babel doesn't work for you (e.g. because of an advanced `tsconfig.json`)
 {% endmigration %}
 
 {% warning %}
-This is expected to be slightly slower for large builds/assets, so transpiling using Babel is the default approach.
+Ожидается, что это будет немного медленнее для больших сборок/ресурсов, поэтому транспиляция с использованием Babel является подходом по умолчанию.
 {% endwarning %}
 
-### Importing GraphQL
+### Импорт GraphQL
 
-When import GraphQL files (`.gql`), imports are still resolved/inlined (using `graphql-import-macro`), but you now get the processed GraphQL query as a string instead of an Apollo AST.
+При импорте файлов GraphQL (`.gql`), импорт все еще разрешен/встроен (с помощью `graphql-import-macro`), но теперь вы получаете обработанный запрос GraphQL в виде строки вместо Apollo AST.
 
 {% migration %}
 {% samplefile "DataComponent.js" %}
 
 ```js
-import fetchDataQuery from "./fetchData.gql"; // fetchDataQuery is the parsed AST
+import fetchDataQuery from "./fetchData.gql"; // fetchDataQuery - это проанализированный AST
 
 const DataComponent = () => {
   const { data } = useQuery(test, {
@@ -134,9 +134,9 @@ const DataComponent = () => {
 ```js/5
 import gql from "graphql-tag";
 
-import fetchDataQuery from "./fetchData.gql"; // fetchDataQuery is a string
+import fetchDataQuery from "./fetchData.gql"; // fetchDataQuery - это строка
 
-// Convert to the Apollo Specific Query AST
+// Преобразование в AST запроса Apollo
 const parsedFetchDataQuery = gql(test);
 
 const DataComponent = () => {
@@ -152,19 +152,19 @@ const DataComponent = () => {
 {% endmigration %}
 
 {% note %}
-With Parcel 2's new plugin architecture, creating a plugin that parses the string into an AST at build time (as Parcel 1 did) is very easy.
+С новой архитектурой плагинов Parcel 2 очень легко создать плагин, который анализирует строку в AST во время сборки (как это сделал Parcel 1).
 {% endnote %}
 
-## Configuration/CLI
+## Конфигурация/CLI
 
 ### `package.json#main`
 
-Many `package.json`s (e.g. the one generated by `npm init`) contains `main: "index.js"` which ignored by most tools (for non-library projects). Parcel 2 will however use that value as the output path (see [Configuration#main](/configuration/package-json/#main-%2F-module-%2F-browser)),
-for most web apps, this line should simply be removed.
+Многие `package.json` '(например, тот, который сгенерирован `npm init`) содержат `main: "index.js"`, который игнорируется большинством инструментов (для небиблиотечных проектов). Однако Parcel 2 будет использовать это значение в качестве пути вывода (см. [Configuration#main](/configuration/package-json/#main-%2F-module-%2F-browser)),
+для большинства веб-приложений эту строку следует просто удалить.
 
 ### `--target`
 
-This CLI flag is now inferred from your `package.json`, one of these three properties is enough (number denotes priority).
+Этот флаг CLI теперь выводится из вашего `package.json`, достаточно одного из этих трех свойств (число обозначает приоритет).
 
 {% migration %}
 {% samplefile %}
@@ -197,7 +197,7 @@ parcel build index.js --target node
 
 ### `--experimental-scope-hoisting`
 
-Parcel 2 has scope hoisting enabled by default; to disable it, add `--no-scope-hoist`.
+В Parcel 2 по умолчанию включен подъем области действия; чтобы отключить его, добавьте `--no-scope-hoist`.
 
 {% migration %}
 {% samplefile %}
@@ -220,7 +220,7 @@ parcel build index.js --no-scope-hoist
 
 ### `--bundle-node-modules`
 
-To bundle packages from `node_modules` when targetting Node.js, you now should specify that in the target configuration:
+Чтобы связать пакеты из `node_modules` при таргетинге на Node.js, вы теперь должны указать это в целевой конфигурации:
 
 {% migration %}
 {% samplefile %}
@@ -251,13 +251,15 @@ parcel build index.js --target node --bundle-node-modules
 
 {% note %}
 
-This option is more versatile that the CLI parameter (you can also selectively include packages), see [Configuration#includeNodeModules](/configuration/package-json/#includenodemodules) for all details.
+Этот параметр более универсален, чем параметр CLI (вы также можете выборочно включать пакеты), все подробности см. В [Configuration#includeNodeModules](/configuration/package-json/#includenodemodules).
 
 {% endnote %}
 
 ### `--out-dir`
 
 To align `--out-dir` with the options in [`package.json#targets`](/configuration/package-json/#targets), that option was renamed to `--dist-dir`.
+
+Чтобы согласовать `--out-dir` с параметрами в [`package.json#targets`](/configuration/package-json/#targets), этот параметр был переименован в `--dist-dir`.
 
 {% migration %}
 {% samplefile %}
@@ -278,7 +280,7 @@ parcel build index.html --dist-dir www
 
 ### `--out-file`
 
-This flag, was removed and the path should instead be be specified in `package.json` (see [Configuration](/configuration/package-json/#custom-targets)).
+Этот флаг был удален, и вместо этого путь должен быть указан в `package.json` (см. [Configuration](/configuration/package-json/#custom-targets)).
 
 {% migration %}
 {% samplefile %}
@@ -302,7 +304,7 @@ parcel build index.js --out-file lib.js
 
 ### `--log-level`
 
-The log levels now have names instead of numbers (`none`, `error`, `warn`, `info`, `verbose`)
+Уровни журнала теперь имеют имена, а не числа. (`none`, `error`, `warn`, `info`, `verbose`)
 
 {% migration %}
 {% samplefile %}
@@ -323,7 +325,7 @@ parcel build index.js --log-level error
 
 ### `--global`
 
-This option has been removed without a replacement (for now).
+Эта опция удалена без замены (пока).
 
 {% migration %}
 {% samplefile %}

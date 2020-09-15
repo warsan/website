@@ -4,14 +4,14 @@ eleventyNavigation:
   key: plugin-system-data-structures
   title: Data Structures
   order: 13
-summary: A high-level description of the important data structures
+summary: Высокоуровневое описание важных структур данных
 ---
 
 TODO
 
 {% note %}
 
-This is not intended to be an API documentation but rather introduces the concepts behind these types so that reading the API definition doesn't leave you puzzled.
+Это не предназначено для документации по API, а скорее знакомит с концепциями, лежащими в основе этих типов, чтобы чтение определения API не оставило вас в недоумении.
 
 {% endnote %}
 

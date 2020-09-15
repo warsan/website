@@ -6,9 +6,9 @@ eleventyNavigation:
   order: 4
 ---
 
-Note that Parcel does not support using SFCs with Vue 2, you must use [Vue 3 beta](https://github.com/vuejs/vue-next) or later.
+Обратите внимание, что Parcel не поддерживает использование SFC с Vue 2, вы должны использовать [Vue 3 beta](https://github.com/vuejs/vue-next) или более позднюю.
 
-Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web. Parcel supports Vue without the need for any additional configuration.
+Vue.js представляет собой прогрессивную, постепенно адаптируемую среду JavaScript для создания пользовательского интерфейса в Интернете. Parcel поддерживает Vue без необходимости дополнительной настройки.
 
 {% sample %}
 {% samplefile "index.html" %}
@@ -34,7 +34,7 @@ app.mount("#app");
 
 ```html
 <template>
-  <div>Hello {% raw %}{{ name }}{% endraw %}!</div>
+  <div>- Привет, {% raw %}{{ name }}{% endraw %}!</div>
 </template>
 
 <script>
@@ -53,11 +53,11 @@ app.mount("#app");
 
 ## HMR
 
-Parcel uses the same HMR injection as the official [vue-loader](https://github.com/vuejs/vue-loader) for Webpack, so you'll have a fast, reactive development experience.
+Parcel использует ту же инъекцию HMR, что и официальный [vue-loader](https://github.com/vuejs/vue-loader) для Webpack, поэтому у вас будет быстрая реактивная разработка.
 
-## Vue 3 Features
+## Характеристики Vue 3 
 
-Since Parcel uses the latest Vue 3 beta, you can use all Vue 3 features, such as the [Composition API](https://composition-api.vuejs.org/).
+Поскольку Parcel использует последнюю бета-версию Vue 3, вы можете использовать все функции Vue 3, такие как [Composition API](https://composition-api.vuejs.org/).
 
 {% sample %}
 {% samplefile "App.vue" %}
@@ -98,18 +98,18 @@ Since Parcel uses the latest Vue 3 beta, you can use all Vue 3 features, such as
 
 ## Language Support
 
-Parcel supports [JavaScript](/languages/babel), [TypeScript](/languages/typescript), and [CoffeeScript](/languages/coffeescript) as scripting languages in Vue.
+Parcel поддерживает [JavaScript](/languages/babel), [TypeScript](/languages/typescript), и [CoffeeScript](/languages/coffeescript) в качестве скриптовых языков в Vue.
 
-Almost any templating language (all those supported by [consolidate](https://www.npmjs.com/package/consolidate)) can be used.
+Практически любой шаблонный язык (все те, которые поддерживаются [консолидацией](https://www.npmjs.com/package/consolidate)) может быть использован.
 
-For styling, [Less](/languages/less), [Sass](/languages/sass), and [Stylus](/languages/stylus) are supported. In addition, [CSS Modules](/languages/postcss) and [scoped style](https://vue-loader.vuejs.org/guide/scoped-css.html) can be used with the `module` and `scoped` modifiers.
+Для укладки поддерживаются [Less](/languages/less), [Sass](/languages/sass), и [Stylus](/languages/stylus). Кроме того, с модификаторами [CSS Modules](/languages/postcss) и [scoped style](https://vue-loader.vuejs.org/guide/scoped-css.html) можно использовать с помощью модификаторов `module` и `scoped`.
 
 {% sample %}
 {% samplefile "App.vue" %}
 
 ```html
 <style lang="scss" scoped>
-  /* This style will only apply to this module */
+  /* Этот стиль будет применяться только к этому модулю */
   $red: red;
   h1 {
     background: $red;
@@ -124,8 +124,8 @@ For styling, [Less](/languages/less), [Sass](/languages/sass), and [Stylus](/lan
 </style>
 
 <style src="./App.module.css">
-  /* The content of blocks with a `src` attribute is ignored and replaced with
-   the content of `src`. */
+  /* Содержимое блоков с атрибутом src игнорируется и заменяется на
+   содержание `src`. */
 </style>
 
 <template lang="pug">
@@ -136,16 +136,16 @@ div
 <script lang="coffee">
   module.exports =
     data: ->
-      msg: 'Hello from coffee!'
+      msg: 'Привет из coffee!'
 </script>
 ```
 
 {% endsamplefile %}
 {% endsample %}
 
-## Custom Blocks
+## Пользовательские блоки
 
-You can use custom blocks in your Vue components, but must configure Vue with `.vuerc`, `vue.config.js`, etc. to define how you will preprocess those blocks.
+Вы можете использовать пользовательские блоки в своих компонентах Vue, но должны настроить Vue с `.vuerc`, `vue.config.js`, и т.д., чтобы определить, как вы будете предварительно обрабатывать эти блоки.
 
 {% sample %}
 {% samplefile ".vuerc" %}
@@ -176,15 +176,15 @@ export default function (component, blockContent, blockAttrs) {
 
 ```html
 <template>
-  <div>Home Page</div>
+  <div>Домашняя страница</div>
 </template>
 
 <docs>
-  This component represents the home page of the application.
+  Этот компонент представляет собой домашнюю страницу приложения.
 </docs>
 
 <docs brief>
-  Home Page
+  Домашняя страница
 </docs>
 ```
 

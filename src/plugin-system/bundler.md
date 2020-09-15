@@ -4,11 +4,11 @@ eleventyNavigation:
   key: plugin-system-bundler
   title: Bundler
   order: 5
-summary: "A plugin type: Turns an asset graph into a bundle graph"
+summary: "Тип плагина: превращает диаграмму активов в диаграмму комплекта."
 ---
 
-Bundlers accept the entire asset graph and modify it to add bundle nodes that group the assets
-into output bundles.
+Компоновщики принимают весь граф активов и модифицируют его, добавляя узлы комплекта,  
+которые группируют активы в выходные пакеты.
 
 ```js
 import { Bundler } from "@parcel/plugin";
@@ -24,6 +24,6 @@ export default new Bundler({
 });
 ```
 
-## Relevant API
+## Соответствующий API
 
 {% include "../../api/bundler.html" %}

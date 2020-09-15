@@ -6,35 +6,35 @@ eleventyNavigation:
   order: 1
 ---
 
-## Installing the Parcel CLI
+## Установка Parcel CLI
 
-The Parcel CLI is built into the main `parcel` package.
+Интерфейс командной строки Parcel встроен в основной пакет `parcel`.
 
-While you can install and run Parcel globally, it is much better to install it locally into your project as a dev dependency. To do this navigate to the project in the terminal and run the install command listed below.
+Хотя вы можете установить и запустить Parcel глобально, гораздо лучше установить его локально в свой проект в качестве зависимости разработчика. Для этого перейдите к проекту в терминале и выполните команду установки, указанную ниже.
 
-To install Parcel, run the following command:
+Чтобы установить Parcel, выполните следующую команду:
 
 ```bash
 yarn add -D parcel@next
 ```
 
-Or when using NPM run:
+Или при использовании NPM run:
 
 ```bash
 npm install -D parcel@next
 ```
 
-## Setting up the Project
+## Настройка проекта
 
-### Example Project
+### Пример проекта
 
-To make running parcel easier, you should add some `scripts` to your `package.json`, these are a kind of shortcut to a usually longer command. Below we're gonna suggest some minimal Parcel commands to get you started.
+Чтобы упростить запуск parcel, вы должны добавить несколько скриптов в ваш package.json, это своего рода ярлык для обычно более длинной команды. Ниже мы предложим несколько минимальных команд Parcel для начала.
 
-Common names for these scripts are `start` for starting the development environment and `build` for building a production version of your application. We will be using these naming conventions in the example below.
+Обычные имена для этих сценариев - `start` для запуска среды разработки и `build` для создания рабочей версии вашего приложения. Мы будем использовать эти соглашения об именах в примере ниже.
 
-To run the development environment in this example you can run `yarn run start` or `npm run start`.
+Чтобы запустить среду разработки в этом примере, вы можете запустить `yarn run start` или `npm run start`.
 
-To create a production build in this example you can run `yarn run build` or `npm run build`.
+Чтобы создать производственную сборку в этом примере, вы можете запустить `yarn run build` или `npm run build`.
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -87,57 +87,59 @@ render(<h1>Hello World</h1>, document.getElementById("root"));
 {% endsamplefile %}
 {% endsample %}
 
-### Parcel commands explained
+### Объяснение команд Parcel 
 
-In the above example you can see two commands, the development command `parcel serve ./src/index.html` and `parcel build ./src/index.html` for creating production builds.
+В приведенном выше примере вы можете увидеть две команды, команду разработки `parcel serve ./src/index.html` и `parcel build ./src/index.html` для создания рабочих сборок.
 
-Note that the commands in the example have `./src/index.html` as an entry point instead of a JavaScript file, which is different from other bundlers. Using a HTML file as the entrypoint makes Parcel easier to use as it will be able to detect dependencies directly from the HTML file and bundle all these detected dependencies into their respective bundles automatically without any configuration. Parcel can even do more advanced things automatically like differential serving and compiling inline scripts and styles without any configuration.
+Обратите внимание, что команды в примере имеют `./src/index.html` в качестве точки входа вместо файла JavaScript, который отличается от других сборщиков. Использование файла HTML в качестве точки входа упрощает использование Parcel, поскольку он сможет обнаруживать зависимости непосредственно из файла HTML и автоматически связывать все эти обнаруженные зависимости в соответствующие пакеты без какой-либо конфигурации. Parcel может даже автоматически выполнять более сложные задачи, такие как дифференциальное обслуживание и компиляция встроенных скриптов и стилей без какой-либо конфигурации.
 
-#### Development command
+#### Команда развития
 
-The development command `parcel serve ./src/index.html` starts up a development server for serving your JS, HTML, CSS files and any other assets of your project.
+Команда разработки `parcel serve ./src/index.html` запускает сервер разработки для обслуживания ваших файлов JS, HTML, CSS и любых других ресурсов вашего проекта.
 
 Besides the hosting of these assets, we also start a [Hot Module Reload](/features/hmr/) server which is a websocket that listens to build events and reloads a script, style or your entire page depending on what changed (if you are using React, we even have [React Fast Refresh](</recipes/react/#hmr-(fast-refresh)>) built in). This is super useful as you no longer have to wait for the build to complete and manually refresh the page, although you can still do this if you want by adding the `--no-hmr` flag to the command.
 
-It also ensures all used libraries and frameworks are built in development mode, meaning you will get additional debug information if they provide any. Parcel sets the `process.env.NODE_ENV` variable to `development`, generates source maps and doesn't do any minification.
+Помимо размещения этих ресурсов, мы также запускаем сервер [Hot Module Reload](/features/hmr/), который представляет собой веб-сокет, который прослушивает события сборки и перезагружает скрипт, стиль или всю вашу страницу в зависимости от того, что изменилось (если вы используют React, у нас даже есть встроенный [React Fast Refresh](</recipes/react/#hmr-(fast-refresh)>)). Это очень полезно, так как вам больше не нужно ждать завершения сборки и вручную обновлять страницу, хотя вы все равно можете сделать это, если хотите, добавив к команде флаг `--no-hmr`.
 
-#### Production build command
+Это также гарантирует, что все используемые библиотеки и фреймворки построены в режиме разработки, что означает, что вы получите дополнительную отладочную информацию, если они предоставят ее. Parcel устанавливает для переменной `process.env.NODE_ENV` значение `development`, генерирует исходные карты и не выполняет минификацию.
 
-The production build command `parcel build ./src/index.html` does exactly what it says it does, which is building your application.
+#### Команда сборки производства
 
-It creates production-ready bundles that contain very little to no unused and development code, ensuring your end-user gets fast load times. We achieve this by telling frameworks and libraries we're building for production by setting the `process.env.NODE_ENV` variable to `production`.
+Команда производственной сборки `parcel build ./src/index.html` делает именно то, что говорит о постройке вашего приложения.
 
-We also run a minifier over most assets to ensure code is as minimal as it can and do [scope hoisting](/features/scope-hoisting/) on all the JavaScript bundles to ensure as little unused code as possible ends up in the JavaScript bundles.
+Он создает готовые к производству пакеты, которые содержат очень мало или совсем не содержат неиспользуемого кода разработки, гарантируя, что конечный пользователь получит быструю загрузку. Мы достигаем этого, сообщая фреймворкам и библиотекам, которые мы создаем для производства, устанавливая для переменной `process.env.NODE_ENV` значение `production`.
 
-These bundles are also named in such a way that any non-html assets can be cached safely by a CDN for a very long time without any user ever having an incorrect or outdated bundle as the name includes a hash of the final bundle content.
+Мы также запускаем минификатор для большинства ресурсов, чтобы код был минимальным, и выполняем [scope hoisting](/features/scope-hoisting/) для всех пакетов JavaScript, чтобы как можно меньше неиспользуемого кода попало в JavaScript связки.
+
+Эти пакеты также названы таким образом, что любые ресурсы, не являющиеся HTML-файлами, могут быть безопасно кэшированы CDN в течение очень долгого времени, и ни у одного пользователя никогда не будет неправильного или устаревшего пакета, поскольку имя включает в себя хэш конечного содержимого пакета.
 
 ## Browserslist
 
-By default Parcel uses the following browserslist config: [`> 0.25%`](https://browserl.ist/?q=%3E+0.25%25) this will be a good default for most applications.
+По умолчанию Parcel использует следующую конфигурацию списка браузеров: [`> 0.25%`](https://browserl.ist/?q=%3E+0.25%25) это будет хорошим вариантом по умолчанию для большинства приложений.
 
-### Why configure browserslist
+### Зачем настраивать список браузеров
 
-Having a custom browserslist ensures you are in full control of which browsers your application supports, for example you need to support IE 11, than you can define: [`> 0.25%, ie 11`](https://browserl.ist/?q=%3E0.25%25%2C+ie+11). This will ensure IE 11 will always work regardless of the market percentage it will have in the future.
+Наличие настраиваемого списка браузеров гарантирует, что вы полностью контролируете, какие браузеры поддерживает ваше приложение, например, вам нужно поддерживать IE 11, чем вы можете определить: [`> 0.25%, ie 11`](https://browserl.ist/?q=%3E0.25%25%2C+ie+11). Это гарантирует, что IE 11 будет всегда работать независимо от того, какой процент рынка он будет иметь в будущем.
 
-On the other side it is also useful for reducing bundle size as supporting a lot and outdated browsers results in a lot of polyfills, for example if you don't need to support IE 11 or Opera Mini you can use [`> 0.25%, not ie 11, not op_mini all`](https://browserl.ist/?q=%3E+0.25%25%2C+not+ie+11%2C+not+op_mini+all) which should in turn reduce bundle size, which results in faster load times and happy users/customers.
+С другой стороны, это также полезно для уменьшения размера пакета, поскольку поддержка большого количества устаревших браузеров приводит к появлению большого количества полифилов, например, если вам не нужно поддерживать IE 11 или Opera Mini, вы можете использовать [`> 0.25%, not ie 11, not op_mini all`](https://browserl.ist/?q=%3E+0.25%25%2C+not+ie+11%2C+not+op_mini+all) что, в свою очередь, должно уменьшить размер пакета и привести к более быстрой загрузке и удовольствию пользователей/клиентов.
 
-### How to configure browserslist
+### Как настроить список браузеров
 
-To configure a browserslist you can take a couple approaches, you can define it in your `package.json` file under the `browserslist` key or in a seperate configuration file: `browserslist` or `.browserslistrc`.
+Чтобы настроить список браузеров, вы можете использовать несколько подходов, вы можете определить его в своем файле `package.json` с помощью ключа `browserslist` или в отдельном файле конфигурации: `browserslist` или `.browserslistrc`.
 
-You can find more information over in the [Browserslist repo](https://github.com/browserslist/browserslist#readme)
+Вы можете найти более подробную информацию в [Browserslist repo](https://github.com/browserslist/browserslist#readme)
 
-In our configuration section, we explain how you can set [targets](/getting-started/configuration/#targets) for configuring Parcel.
+В нашем разделе конфигурации мы объясняем, как вы можете установить [targets](/getting-started/configuration/#targets) для настройки Parcel.
 
-## Differential Serving
+## Дифференциальное обслуживание
 
-Parcel also supports differential serving, which means you can serve a different bundle to modern browsers as you do to old browsers. This results in faster load time for newer browsers as the bundle size will be a lot smaller.
+Parcel также поддерживает дифференцированное обслуживание, что означает, что вы можете обслуживать разные пакеты для современных браузеров, как и для старых браузеров. Это приводит к более быстрому времени загрузки для новых браузеров, поскольку размер пакета будет намного меньше.
 
-You don't have to add any config to make this work, the only thing you have to do is add a script tag to your HTML file. Parcel automatically takes care of the browserslist target by implicitly removing all browsers from your (defined) browserslist that do not support esmodules.
+Вам не нужно добавлять какую-либо конфигурацию, чтобы это работало, единственное, что вам нужно сделать, это добавить тег скрипта в свой HTML-файл. Parcel автоматически заботится о целевом списке браузеров, неявно удаляя все браузеры из вашего (определенного) списка браузеров, которые не поддерживают esmodules.
 
-To utilise this, you need to have two script tags in your HTML file: one with `type="module"` and one for older browsers with the `nomodule` attribute.
+Чтобы использовать это, вам необходимо иметь два тега сценария в вашем HTML-файле: один с `type="module"` и один для старых браузеров с атрибутом `nomodule`.
 
-You can find an example of such a html file below.
+Вы можете найти пример такого html-файла ниже.
 
 {% sample %}
 {% samplefile "src/index.html" %}
@@ -153,9 +155,9 @@ You can find an example of such a html file below.
   <body>
     <div id="root"></div>
 
-    <!-- This script tag will get a reference to the bundle with targetting your defined browser target -->
+    <!-- Этот тег скрипта получит ссылку на пакет с таргетингом на заданную вами цель браузера. -->
     <script nomodule src="./index.tsx"></script>
-    <!-- This script tag will get a reference to the esmodule bundle -->
+    <!-- Этот тег скрипта получит ссылку на пакет esmodule -->
     <script type="module" src="./index.tsx"></script>
   </body>
 </html>
@@ -169,7 +171,7 @@ You can find an example of such a html file below.
 import React from "react";
 import { render } from "react-dom";
 
-render(<h1>Hello World</h1>, document.getElementById("root"));
+render(<h1>- Привет, Мир!</h1>, document.getElementById("root"));
 ```
 
 {% endsamplefile %}

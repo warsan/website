@@ -4,24 +4,24 @@ eleventyNavigation:
   key: languages-typescript
   title: <img src="/assets/lang-icons/typescript.svg" alt=""/> TypeScript
   order: 2
-summary: Explains the different ways TypeScript can be transpiled
+summary: Объясняет различные способы передачи TypeScript.
 ---
 
-Typescript works out of the box with Parcel, but there ...
+Машинопись сразу работает с Parcel, как есть...
 
 ## Babel
 
-Babel can strip TypeScript type annotations using `@babel/preset-typescript`, this is the default way in which Parcel transpiles TypeScript because it is generally faster in our pipeline. There are however a few downsides to this:
+Babel может удалять аннотации типов TypeScript, используя `@babel/preset-typescript`, это способ по умолчанию, которым Parcel переносит TypeScript, потому что он обычно быстрее в нашем конвейере. Однако у этого способа есть несколько недостатков:
 
-- No type checking
-- `tsconfig.json` is ignored, so language features like class properties, decorators need to be provided by a Babel plugin.
-- `const enum` isn't supported
+- Нет проверки типа
+- `tsconfig.json` игнорируется, поэтому такие языковые функции, как свойства класса и декораторы, должны предоставляться плагином Babel.
+- `const enum` не поддерживается
 
-For a full list, take a look at the [Babel documentation](https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats).
+Чтобы увидеть полный список, взгляните на [Babel документацию](https://babeljs.io/docs/en/babel-plugin-transform-typescript#caveats).
 
 ## TypeScript's `tsc`
 
-If you are using more advanced TypeScript features that include custom config settings in `tsconfig.js`, you can use the `@parcel/transformer-typescript-tsc` transformer which uses the offical TypeScript compiler:
+Если вы используете более продвинутые функции TypeScript, которые включают пользовательские настройки конфигурации в `tsconfig.js`, вы можете использовать преобразователь `@parcel/transformer-typescript-tsc`, который использует официальный компилятор TypeScript:
 
 {% sample %}
 {% samplefile ".parcelrc" %}
@@ -38,15 +38,15 @@ If you are using more advanced TypeScript features that include custom config se
 {% endsamplefile %}
 {% endsample %}
 
-Because Parcel processes each file individually, it implicitly sets `isolatedModules: true` in the tsc options, this comes with limitations as well, namely constant `const enum`s not being supported either.
+Поскольку Parcel обрабатывает каждый файл индивидуально, он неявно устанавливает `isolatedModules: true` в параметрах tsc, это также имеет ограничения, а именно: константа `const enum` тоже не поддерживается.
 
-- No type checking
-- `const enum` isn't supported
-- Some `tsconfig.json` options (such as `paths`) are currently not respected with the default config.
+- Нет проверки типа
+- `const enum` не поддерживается
+- Некоторые параметры `tsconfig.json` (такие как `paths`) в настоящее время не поддерживаются конфигурацией по умолчанию.
 
-## Type Checking
+## Проверка типа
 
-Neither the Babel transformer nor the tsc transformer perform type checking, they merely strip the type annotations. The only builtin way to validate the types is to use the tsc validator which runs after the bundles are generated. You need to add a `tsconfig.json` file that includes your source files (although the validator still only runs on the assets that Parcel processed). TODO
+Ни преобразователь Babel, ни преобразователь tsc не выполняют проверку типов, они просто удаляют аннотации типов. Единственный встроенный способ проверить типы - использовать валидатор tsc, который запускается после создания пакетов. Вам необходимо добавить файл `tsconfig.json`, который включает ваши исходные файлы (хотя валидатор по-прежнему работает только с активами, обработанными Parcel). TODO
 
 {% sample %}
 {% samplefile ".parcelrc" %}
@@ -72,9 +72,9 @@ Neither the Babel transformer nor the tsc transformer perform type checking, the
 {% endsamplefile %}
 {% endsample %}
 
-## Generating Typings
+## Генерация типизации
 
-Parcel can extract the typings of your entry point by specifying `package.json#types` (an automatic target like `main`)
+Parcel может извлечь типизацию вашей точки входа, указав package.json # types (автоматическая цель, например `main`)
 
 {% sample %}
 {% samplefile "package.json" %}
@@ -90,4 +90,4 @@ Parcel can extract the typings of your entry point by specifying `package.json#t
 {% endsamplefile %}
 {% endsample %}
 
-(This functionality is provided by `@parcel/transformer-babel` or `@parcel/transformer-typescript-tsc`.)
+(Эта функциональность предоставляется `@parcel/transformer-babel` или `@parcel/transformer-typescript-tsc`.)

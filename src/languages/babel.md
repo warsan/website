@@ -8,7 +8,7 @@ eleventyNavigation:
 
 TODO
 
-- default config (browserslist)
-- babel.config.js should be avoided
+- конфигурация по умолчанию (browserslist)
+- babel.config.js следует избегать
 
-(This functionality is provided by `@parcel/transformer-babel`)
+(Эта функциональность предоставляется `@parcel/transformer-babel`)

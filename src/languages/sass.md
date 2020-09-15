@@ -8,4 +8,4 @@ eleventyNavigation:
 
 TODO
 
-(This functionality is provided by `@parcel/transformer-sass`)
+(Эта функциональность предоставляется `@parcel/transformer-sass`)

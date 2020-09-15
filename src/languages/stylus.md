@@ -8,4 +8,4 @@ eleventyNavigation:
 
 TODO
 
-(This functionality is provided by `@parcel/transformer-stylus`)
+(Эта функциональность предоставляется `@parcel/transformer-stylus`)

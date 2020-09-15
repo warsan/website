@@ -4,10 +4,10 @@ eleventyNavigation:
   key: plugin-system-configuration
   title: Configuration
   order: 12
-summary: "Not really a plugin type: A reuseable '.parcelrc' package"
+summary: "Не совсем тип плагина: многоразовый пакет '.parcelrc'"
 ---
 
-This is simply a [`.parcelrc`](/configuration/plugin-configuration/) file wrapped into a published package, the `main` points to the config file.
+Это просто файл [`.parcelrc`](/configuration/plugin-configuration/), завернутый в опубликованный пакет, `main` указывающий на файл конфигурации.
 
 ```json
 {
@@ -20,4 +20,4 @@ This is simply a [`.parcelrc`](/configuration/plugin-configuration/) file wrappe
 }
 ```
 
-One usecase for this is a system with multiple plugins.
+Один из вариантов использования для этого - система с несколькими плагинами.
