@@ -61,7 +61,7 @@ pre[class*="language-"] {
 	background: #f5f2f0;
 }
 
-/* Inline code */
+/* Встроенный код */
 :not(pre) > code[class*="language-"] {
 	padding: .1em;
 	border-radius: .3em;

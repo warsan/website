@@ -88,11 +88,11 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  /*font: inherit; <---  this resets <em> ? */
+  /*font: inherit; <---  это сбрасывает <em> ? */
   vertical-align: baseline;
 }
 
-/* HTML5 display-role reset for older browsers */
+/* HTML5 сброс роли дисплея для старых браузеров */
 article,
 aside,
 details,
