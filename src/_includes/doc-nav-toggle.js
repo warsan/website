@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 (function () {
   var navToggles = document.querySelectorAll(".toggle-doc-nav-tree");
   navToggles.forEach((toggle) => {

@@ -1,4 +1,4 @@
-"use strict";
+//"use strict";
 function getPrismCSS(mode) {
   if (mode) return "/assets/prism-okaidia.css";
   else return "/assets/prism.css";
