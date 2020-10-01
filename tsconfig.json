@@ -7,17 +7,19 @@
       "es6",
       "dom"
     ],
-    "sourceMap": true,
     "allowJs": true,
+    "sourceMap": true,
     "jsx": "react",
-    "moduleResolution": "node",
     "rootDir": "src",
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
+    "moduleResolution": "node",
+    
     "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
     "strictNullChecks": true,
+    "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": true
+    "forceConsistentCasingInFileNames": true
+    
   }
 }
