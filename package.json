@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
+  "main": "index.html",
   "scripts": {
     "build": "rm -rf _site; eleventy",
     "watch": "eleventy --watch",
